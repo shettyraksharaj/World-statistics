@@ -41,6 +41,7 @@ if(isset($_POST['Login'])){
         if ($hashpass == $admindata['password']) {
           $_SESSION['admin'] = $admindata['admin_id'];
           $_SESSION['propho'] = $admindata['admin_photo'];
+          $_SESSION['name'] = $admindata['name'];
           header("location:admindataview.php");
           return;
         }else{

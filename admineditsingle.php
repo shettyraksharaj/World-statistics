@@ -106,25 +106,28 @@ if (!isset($_SESSION['admin'])) {
           <a class="nav-link" href="admindataview.php">View Table</a>
         </li>
         <li class="nav-item dropdown mx-1">
-          <a class="nav-link dropdown-toggle active" data-toggle="dropdown" role="button" href="#" aria-haspopup="true" aria-expanded="false">Insert</a>
+          <a class="nav-link dropdown-toggle active" data-toggle="dropdown" role="button" href="#" aria-haspopup="true" aria-expanded="false">Insert and Purge</a>
           <div class="dropdown-menu">
-            <a class="dropdown-item active" href="admineditsingle.php">single insert</a>
-            <a class="dropdown-item" href="admineditmulti.php">batch mode</a>
+            <a class="dropdown-item active" href="admineditsingle.php">Data Entry</a>
+            <a class="dropdown-item" href="admineditmulti.php">Purge Data</a>
           </div>
         </li>
         <li class="nav-item mx-1">
-          <a class="nav-link" href="adduser.php">Add User</a>
+          <a class="nav-link" href="adduser.php">Add Admin</a>
         </li>
       </ul>
       <ul class="nav nav-pills float-left">
-       <li>
-         <a href="admin.php"> <img class="rounded-circle" src="<?= $_SESSION['propho']?>" alt=""></a>
+       <li style="border-left: 1px solid #000000;" >
+         <a style="margin-left: 5px;" href="admin.php"> <img class="rounded-circle" src="<?= $_SESSION['propho']?>" alt=""> <span><?= $_SESSION['name']?></span> </a>
        </li>
        <li class="nav-item mx-1">
          <a class="nav-link" href="logout.php">Logout</a>
        </li>
       </ul>
     </nav>
+
+    <h1>Data Entry:</h1>
+
       <!--\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\____insert module____/////////////////////////////////-->
         <ul class="nav nav-tabs" role="tablist">
           <li class="nav-item ml-auto" role="presentation">
@@ -329,30 +332,29 @@ if (!isset($_SESSION['admin'])) {
         <!--_________________________________tab-content end for insert module_________________________________________-->
         <script>
           $("#insert").click(function (event) {
-            var regex = /[0-9]/;
+            var regex = /^[0-9]*$/;
             var numeleid = ['#population', '#death_rt', '#percap', '#epi', '#personnel', '#crime_rt', '#cb_doc', '#lit_rt', '#h_budget', '#birth_rt', '#povper', '#nuke', '#h_index', '#gdp', '#c_doc', '#m_budget', "#l_exp"];
             if($("#country_name").val() == ""){
-              /*event.preventDefault();*/
+              event.preventDefault();
               $("#country_name").attr("class","form-control  is-invalid");
             }else{
               $("#country_name").attr("class","form-control  is-valid");
             }
             if($("#cur").val() == ""){
-              /*event.preventDefault();*/
+              event.preventDefault();
               $("#cur").attr("class","form-control  is-invalid");
             }else{
               $("#cur").attr("class","form-control  is-valid");
             }
             "cur"
             for(var i = 0; i< numeleid.length; i++){
-              if($(numeleid[i]).val() != ""){
-                if(!regex.test($(numeleid[i]).val())){
-                  /*event.preventDefault();*/
-                  $(numeleid[i]).attr("class","form-control  is-invalid");
-                }else{
+              $
+                if(regex.test($(numeleid[i]).val())){
                   $(numeleid[i]).attr("class","form-control  is-valid");
+                }else{
+                  event.preventDefault();
+                  $(numeleid[i]).attr("class","form-control  is-invalid");
                 }
-              }
             }
           });
         </script>

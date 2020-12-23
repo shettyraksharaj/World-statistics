@@ -1,5 +1,9 @@
 <?php
 session_start();
+session_start();
+if (!isset($_SESSION['admin'])) {
+  die('Access Denied');
+}
  ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -16,47 +20,36 @@ session_start();
           <a class="nav-link" href="admindataview.php">View Table</a>
         </li>
         <li class="nav-item dropdown mx-1 ">
-          <a class="nav-link dropdown-toggle active" data-toggle="dropdown" role="button" href="#" aria-haspopup="true" aria-expanded="false">Insert</a>
+          <a class="nav-link dropdown-toggle active" data-toggle="dropdown" role="button" href="#" aria-haspopup="true" aria-expanded="false">Insert and Purge</a>
           <div class="dropdown-menu">
-            <a class="dropdown-item" href="admineditsingle.php">single entry</a>
-            <a class="dropdown-item active" href="admineditmulti.php">batch edit</a>
+            <a class="dropdown-item" href="admineditsingle.php">Data Entry</a>
+            <a class="dropdown-item active" href="admineditmulti.php">Purge Data</a>
           </div>
         </li>
         <li class="nav-item mx-1">
-          <a class="nav-link" href="adduser.php">Add User</a>
+          <a class="nav-link" href="adduser.php">Add Admin</a>
         </li>
       </ul>
       <ul class="nav nav-pills float-left">
-       <li>
-         <a href="admin.php"> <img class="rounded-circle" src="<?= $_SESSION['propho']?>" alt=""></a>
+      <li style="border-left: 1px solid #000000;" >
+         <a style="margin-left: 5px;" href="admin.php"> <img class="rounded-circle" src="<?= $_SESSION['propho']?>" alt=""> <span><?= $_SESSION['name']?></span> </a>
        </li>
        <li class="nav-item mx-1">
          <a class="nav-link" href="logout.php">Logout</a>
        </li>
       </ul>
     </nav>
-    <ul class="nav nav-tabs" role="tablist">
-      <li class="nav-item ml-auto" role="presentation">
-        <a class="nav-link" href="#insert" id="insert-tab" data-toggle="tab" role="tab" aria-controls="insert" aria-selected="true">Insert from a file</a>
-      </li>
-      <li class="nav-item mr-auto" role="presentation">
-        <a class="nav-link" href="#purge" id="purge-tab" data-toggle="tab" role="tab" aria-controls="purge" aria-selected="false">Super purge</a>
-      </li>
-    </ul>
-    <div class="tab-content">
-      <div class="tab-pane fade show active container" id="insert" role="tabpanel" aria-labelledby="insert-tab">
-
-      </div>
-      <div class="tab-pane fade container" id="purge" role="tabpanel" aria-labelledby="purge-tab">
-          <button type='button' class='btn btn-danger purgebtn' id='purgebtn' >Purge Database</button>
-      </div>
+    <div class="container" >
+    <h2>Purge Data in Database:</h2>
+    <p><b>Warning:</b> Purging the Database will result in permanent loss of Data. </p>
+    <button type='button' class='btn btn-danger purgebtn' id='purgebtn' >Purge Database</button>
     </div>
     <div style='display:none;' id='alertwindow'>
             <div id='alertbox'>
-              <p>you sure?</p>
-              <div>
-                <button class='btn btn-primary' id='confirm'>Yes</button>
-                <button class='btn btn-danger' id='cancel'>Cancel</button>
+              <p>Clicking on Yes will empty the Database are you sure.</p>
+              <div class="row">
+                <button class='btn btn-primary mx-auto' id='confirm'>Yes</button>
+                <button class='btn btn-danger mx-auto' id='cancel'>Cancel</button>
               </div>
             </div>
           </div>

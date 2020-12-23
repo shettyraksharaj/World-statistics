@@ -86,20 +86,47 @@
 }
 
 
-/*<img class="img-fluid position-fixed bckimg" src="index_backgnd.jpg" style="Z-index:-100;">*/
+/*------------------------------------------super purge------------------------------*/
 
+.purgebtn {
+    width: 30%;
+    position: fixed;
+    top: 40%;
+    left: 35%;
+}
 
-/*      <p class="row text-white justify-content-center mar" >c</p>
-      <p class="row text-white justify-content-center" >h</p>
-      <p class="row text-white justify-content-center" >a</p>
-      <p class="row text-white justify-content-center" >n</p>
-      <p class="row text-white justify-content-center" >g</p>
-      <p class="row text-white justify-content-center" >e</p>
-      <p class="row text-white justify-content-center" > </p>
-      <p class="row text-white justify-content-center" >v</p>
-      <p class="row text-white justify-content-center" >i</p>
-      <p class="row text-white justify-content-center" >e</p>
-      <p class="row text-white justify-content-center" >w</p>*/
+#alertwindow {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    right: 0;
+}
+
+#alertbox {
+    background: #ffffff;
+    width: 40%;
+    height: 30%;
+    position: fixed;
+    top: 30%;
+    left: 30%;
+    border-radius: 7px;
+    box-shadow: 0px 0px 10px 3px #777575;
+}
+
+#alertbox>p {
+    text-align: center;
+    margin-top: 10%;
+    font-size: 150%;
+    font-weight: bold;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+#alertbox>div>button {
+    margin-top: 3%;
+    width: 20%;
+}
 
 
 /*function gensalt(){
