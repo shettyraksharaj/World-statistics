@@ -1,0 +1,112 @@
+@keyframes viewbararise {
+    100% {
+        bottom: 0%;
+    }
+}
+
+.mainform {
+    width: 100%;
+}
+
+.moresty {
+    margin-top: 15% !important;
+}
+
+.ser {
+    background: rgba(256, 256, 256, 0.3);
+}
+
+.bckimg {
+    top: 0% !important;
+    Z-index: -100 !important;
+}
+
+.viewbar {
+    width: 7%;
+    z-index: 10;
+    right: 0%;
+    top: 0%;
+    height: 100vh;
+    background: transparent;
+    padding: 0;
+}
+
+.viewbar div {
+    width: 100%;
+    height: 100%;
+    background: red;
+    padding-top: 10%;
+    bottom: -99.99%;
+    font-size: 100%;
+}
+
+.mar {
+    margin-top: 100%;
+}
+
+.viewbar:hover div {
+    animation-name: viewbararise;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+}
+
+
+/*---------------------------------------------login page----------------------------------------------------*/
+
+.logbox {
+    margin-top: 14% !important;
+    width: 50% !important;
+}
+
+.logback {
+    background: #ffffff;
+}
+
+
+/*---------------------------------------admin insert single--------------------------------------------------*/
+
+.submitbtn {
+    left: 46% !important;
+    right: 40% !important;
+    bottom: 28% !important;
+}
+
+
+/*---------------------------------------------add user-----------------------------------------------------*/
+
+.imgprew {
+    display: inline-block;
+    width: 20%;
+    top: 20% !important;
+    right: 20%;
+}
+
+.imgprew>img {
+    width: 100% !important;
+}
+
+
+/*<img class="img-fluid position-fixed bckimg" src="index_backgnd.jpg" style="Z-index:-100;">*/
+
+
+/*      <p class="row text-white justify-content-center mar" >c</p>
+      <p class="row text-white justify-content-center" >h</p>
+      <p class="row text-white justify-content-center" >a</p>
+      <p class="row text-white justify-content-center" >n</p>
+      <p class="row text-white justify-content-center" >g</p>
+      <p class="row text-white justify-content-center" >e</p>
+      <p class="row text-white justify-content-center" > </p>
+      <p class="row text-white justify-content-center" >v</p>
+      <p class="row text-white justify-content-center" >i</p>
+      <p class="row text-white justify-content-center" >e</p>
+      <p class="row text-white justify-content-center" >w</p>*/
+
+
+/*function gensalt(){
+        $salt = "";
+        for($i=0; $i<10; $i++){
+          $r = chr(rand(37,122));
+          $salt = $salt.$r;
+
+        }
+      }*/
