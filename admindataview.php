@@ -36,21 +36,20 @@ if($rows = $tabledata->fetchall(PDO::FETCH_ASSOC)){
         <a class="nav-link active" href="admindataview.php">View table</a>
       </li>
       <li class="nav-item dropdown mx-1">
-        <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" href="#" aria-haspopup="true" aria-expanded="false">Insert</a>
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" href="#" aria-haspopup="true" aria-expanded="false">Insert and Purge</a>
         <div class="dropdown-menu">
-          <a class="dropdown-item " href="admineditsingle.php">single entry</a>
-          <a class="dropdown-item" href="admineditmulti.php">batch edit</a>
+          <a class="dropdown-item " href="admineditsingle.php">Data Entry</a>
+          <a class="dropdown-item" href="admineditmulti.php">Purge data</a>
         </div>
       </li>
       <li class="nav-item mx-1">
-        <a class="nav-link" href="adduser.php">Add User</a>
+        <a class="nav-link" href="adduser.php">Add Admin</a>
       </li>
     </ul>
     <ul class="nav nav-pills float-left">
-      <li>
-        <a href="admin.php"> <img class="rounded-circle" src="<?= $_SESSION['propho'] ?>" alt=""></a>
-      </li>
-      <li class="nav-item mx-1">
+    <li style="border-left: 1px solid #000000;" >
+         <a style="margin-left: 5px;" href="admin.php"> <img class="rounded-circle" src="<?= $_SESSION['propho']?>" alt=""> <span><?= $_SESSION['name']?></span> </a>
+       </li>
         <a class="nav-link" href="logout.php">Logout</a>
       </li>
     </ul>
@@ -214,9 +213,9 @@ if($rows = $tabledata->fetchall(PDO::FETCH_ASSOC)){
             <tr>
               <th>Country</th>
               <th>Health Index</th>
-              <th>Literacy Rate</th>
+              <th>Literacy Rate(%)</th>
               <th>Life Expectancy</th>
-              <th>Education Budget</th>
+              <th>Education Budget($)</th>
               <th>Options</th>
             </tr>
           </thead>
