@@ -18,8 +18,6 @@ if($rows = $tabledata->fetchall(PDO::FETCH_ASSOC)){
     }
   }
 }
-print_r($rows);
-
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -87,43 +85,149 @@ print_r($rows);
     <!--________________________________tab content for table__________________________________-->
     <div class="tab-content">
       <!--_____________________________population________________________________-->
-      <div class="tab-pane fade container" id="population" role="tabpanel" aria-labelledby="population-tab">
+      <div class="tab-pane fad show container active" id="population" role="tabpanel" aria-labelledby="population-tab"> 
       <table class="Table">
           <thead>
             <tr>
               <th>Country</th>
               <th>Flag</th>
               <th>Population</th>
-              <th>Birth Rate</th>
-              <th>Death Rate</th>
+              <th>Birth Rate(%)</th>
+              <th>Death Rate(%)</th>
               <th>Options</th>
             </tr>
           </thead>
+          <tbody>
+            <?php
+            for($i=0; $i < $rowcount; $i++){
+              echo "<tr><td>".$rows[$i]['COUNTRY_NAME']."</td><td style='width:12%;'><img style='width:45%;' src='".$rows[$i]['FLAG']."'></td><td>".$rows[$i]['POPULATION']."</td><td>".$rows[$i]['BIRTH_RATE']."</td><td>".$rows[$i]['DEATH_RATE']."</td><td style='width:15%;'><a href='update.php?id=".$rows[$i]['CON_ID']."' data-toggle='tooltip' data-placement='top' title='Edit'><img style='width:30%;' src='editicon.svg'></a>/<a href='delete.php?id=".$rows[$i]['CON_ID']."' data-toggle='tooltip' data-placement='top' title='Delete'><img style='width:30%;' src='delicon.svg'></a></td></tr>";
+            }
+            ?>
+          </tbody>
         </table>
       </div>
       <!--_____________________________economy________________________________-->
       <div class="tab-pane fade container" id="economy" role="tabpanel" aria-labeledby="economy-tab">
-
+      <table class="Table">
+          <thead>
+            <tr>
+              <th>Country</th>
+              <th>GDP($)</th>
+              <th>Percapita($) </th>
+              <th>Poverty Percentage(%)</th>
+              <th>Currency</th>
+              <th>Options</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+            for($i=0; $i < $rowcount; $i++){
+              echo "<tr><td>".$rows[$i]['COUNTRY_NAME']."</td><td>".$rows[$i]['GDP']."</td><td>".$rows[$i]['PERCAPITA']."</td><td>".$rows[$i]['POVERTY_PER']."</td><td>".$rows[$i]['CURRENCY']."</td><td style='width:15%;'><a href='update.php?id=".$rows[$i]['CON_ID']."' data-toggle='tooltip' data-placement='top' title='Edit'><img style='width:30%;' src='editicon.svg'></a>/<a href='delete.php?id=".$rows[$i]['CON_ID']."' data-toggle='tooltip' data-placement='top' title='Delete' ><img style='width:30%;' src='delicon.svg'></a></td></tr>";
+            }
+            ?>
+          </tbody>
+        </table>
       </div>
       <!--______________________________enviroment___________________________________-->
       <div class="tab-pane fade container" id="enviroment" role="tabpanel" aria-labelledby="enviroment-tab">
-
+      <table class="Table">
+          <thead>
+            <tr>
+              <th>Country</th>
+              <th>EPI Score</th>
+              <th>Options</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+            for($i=0; $i < $rowcount; $i++){
+              echo "<tr><td>".$rows[$i]['COUNTRY_NAME']."</td><td>".$rows[$i]['EPI_INDEX']."</td><td style='width:15%;'><a href='update.php?id=".$rows[$i]['CON_ID']."' data-toggle='tooltip' data-placement='top' title='Edit'><img style='width:30%;' src='editicon.svg'></a>/<a href='delete.php?id=".$rows[$i]['CON_ID']."' data-toggle='tooltip' data-placement='top' title='Delete'><img style='width:30%;' src='delicon.svg'></a></td></tr>";
+            }
+            ?>
+          </tbody>
+        </table>
       </div>
       <!---_________________________________military___________________________________-->
       <div class="tab-pane fade container" id="military" role="tabpanel" aria-labelledby="military-tab">
-
+      <table class="Table">
+          <thead>
+            <tr>
+              <th>Country</th>
+              <th>Budget($)</th>
+              <th>Personnel</th>
+              <th>Nuclear Warhead</th>
+              <th>Options</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+            for($i=0; $i < $rowcount; $i++){
+              echo "<tr><td>".$rows[$i]['COUNTRY_NAME']."</td><td>".$rows[$i]['BUDGET']."</td><td>".$rows[$i]['PERSONNEL']."</td><td>".$rows[$i]['NUCLEAR_WARHEAD']."</td><td style='width:15%;'><a href='update.php?id=".$rows[$i]['CON_ID']."' data-toggle='tooltip' data-placement='top' title='Edit'><img style='width:30%;' src='editicon.svg'></a>/<a href='delete.php?id=".$rows[$i]['CON_ID']."' data-toggle='tooltip' data-placement='top' title='Delete'><img style='width:30%;' src='delicon.svg'></a></td></tr>";
+            }
+            ?>
+          </tbody>
+        </table>
       </div>
       <!--___________________________________crime_________________________________-->
       <div class="tab-pane fade container" id="crime" role="tabpanel" aria-labelledby="crime-tab">
-
+      <table class="Table">
+          <thead>
+            <tr>
+              <th>Country</th>
+              <th>Crime Rate(%)</th>
+              <th>Options</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+            for($i=0; $i < $rowcount; $i++){
+              echo "<tr><td>".$rows[$i]['COUNTRY_NAME']."</td><td>".$rows[$i]['CRIME_RATE']."</td><td style='width:15%;'><a href='update.php?id=".$rows[$i]['CON_ID']."' data-toggle='tooltip' data-placement='top' title='Edit'><img style='width:30%;' src='editicon.svg'></a>/<a href='delete.php?id=".$rows[$i]['CON_ID']."' data-toggle='tooltip' data-placement='top' title='Delete'><img style='width:30%;' src='delicon.svg'></a></td></tr>";
+            }
+            ?>
+          </tbody>
+        </table>
       </div>
       <!--________________________________________techonology_______________________________-->
       <div class="tab-pane fade container" id="contribution" role="tabpanel" aria-labelledby="contribution-tab">
-
+      <table class="Table">
+          <thead>
+            <tr>
+              <th>Country</th>
+              <th>Cited Document</th>
+              <th>Citable Document</th>
+              <th>Options</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+            for($i=0; $i < $rowcount; $i++){
+              echo "<tr><td>".$rows[$i]['COUNTRY_NAME']."</td><td>".$rows[$i]['CITED_DOC']."</td><td>".$rows[$i]['CITABLE_DOC']."</td><td style='width:15%;'><a href='update.php?id=".$rows[$i]['CON_ID']."' data-toggle='tooltip' data-placement='top' title='Edit'><img style='width:30%;' src='editicon.svg'></a>/<a href='delete.php?id=".$rows[$i]['CON_ID']."' data-toggle='tooltip' data-placement='top' title='Delete'><img style='width:30%;' src='delicon.svg'></a></td></tr>";
+            }
+            ?>
+          </tbody>
+        </table>
       </div>
       <!--__________________________________education and health______________________________-->
       <div class="tab-pane fade container" id="eduhealth" role="tabpanel" aria-labelledby="eduhealth-tab">
-
+      <table class="Table">
+          <thead>
+            <tr>
+              <th>Country</th>
+              <th>Health Index</th>
+              <th>Literacy Rate</th>
+              <th>Life Expectancy</th>
+              <th>Education Budget</th>
+              <th>Options</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+            for($i=0; $i < $rowcount; $i++){
+              echo "<tr><td>".$rows[$i]['COUNTRY_NAME']."</td><td>".$rows[$i]['HEALTH_INDEX']."</td><td>".$rows[$i]['LITERACY_RATE']."</td><td>".$rows[$i]['LIFE_EXPECTANCY']."</td><td>".$rows[$i]['EDU_BUDGET']."</td><td style='width:15%;'><a href='update.php?id=".$rows[$i]['CON_ID']."' data-toggle='tooltip' data-placement='top' title='Edit'><img style='width:30%;' src='editicon.svg'></a>/<a href='delete.php?id=".$rows[$i]['CON_ID']."' data-toggle='tooltip' data-placement='top' title='Delete'><img style='width:30%;' src='delicon.svg'></a></td></tr>";
+            }
+            ?>
+          </tbody>
+        </table>
       </div>
     </div>
     <!--________________________end of tab content for table________________________-->
