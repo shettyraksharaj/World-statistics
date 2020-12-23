@@ -62,8 +62,7 @@ if (isset($_POST['Add'])) {
     }
     $sal = gensalt();
     $hashpass = genhash($_POST['Pass'], $sal);
-    $data =new PDO("mysql:host=localhost;dbname=worldstats",'MrFluffy');
-    $data->setattribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    require 'database.php';
     $sql = $data->prepare('INSERT INTO ADMIN (admin_id,name,password,salt,admin_photo) VALUES (:ADI,:NAM,:PASS,:SAL,:ADP)');
     $sql->execute(array(
                         ':ADI'=>$_POST['Admin_id'],

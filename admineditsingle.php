@@ -3,8 +3,7 @@ session_start();
 if (!isset($_SESSION['admin'])) {
   die('Access Denied');
 }
-  $data =new PDO("mysql:host=localhost;dbname=worldstats",'MrFluffy');
-  $data->setattribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+ require 'database.php';
   if (isset($_POST['Submit'])) {
     if (isset($_FILES['flag'])&& $_FILES['flag']['name']!='') {
       $flagname = $_FILES["flag"]['name'];
@@ -333,7 +332,7 @@ if (!isset($_SESSION['admin'])) {
         <script>
           $("#insert").click(function (event) {
             var regex = /^[0-9]*$/;
-            var numeleid = ['#population', '#death_rt', '#percap', '#epi', '#personnel', '#crime_rt', '#cb_doc', '#lit_rt', '#h_budget', '#birth_rt', '#povper', '#nuke', '#h_index', '#gdp', '#c_doc', '#m_budget', "#l_exp"];
+            var numeleid = ['#population', '#death_rt', '#percap', '#epi', '#personnel', '#crime_rt', '#cb_doc', '#lit_rt', '#e_budget', '#birth_rt', '#povper', '#nuke', '#h_index', '#gdp', '#c_doc', '#m_budget', "#l_exp"];
             if($("#country_name").val() == ""){
               event.preventDefault();
               $("#country_name").attr("class","form-control  is-invalid");

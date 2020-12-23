@@ -4,8 +4,7 @@ session_start();
 $adidbar = ((isset($_SESSION['adidbar'])? $_SESSION['adidbar']:'<input class="form-control" type="email" name="Admin_id" placeholder="sugarkitty@cat.com">') );
 $paswdbar = ((isset($_SESSION['paswdbar'])? $_SESSION['paswdbar']:'<input class="form-control" type="password" name="Password">') );
 /*---------connecting to database-------------------*/
-$data =new PDO("mysql:host=localhost;dbname=worldstats",'MrFluffy');
-$data->setattribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+require 'database.php';
 /*----function to generate hash-------*/
 function genhash($password, $salt){
   $pepper="gh!#(dxgf500kl**o";
