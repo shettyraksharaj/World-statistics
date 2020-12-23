@@ -19,8 +19,7 @@ if (isset($_POST['Add'])) {
         $img = new Imagick($imageiniloc);
         $img->thumbnailImage(50,40);
         $img->writeImage($imageiniloc);
-        if (move_uploaded_file($imageiniloc,$imgNloc)) {
-        }else {
+        if (!move_uploaded_file($imageiniloc,$imgNloc)) {
           $_SESSION['error'] = "Error: Unable to upload";
           header("location:adduser.php");
           return;
@@ -86,6 +85,7 @@ if (isset($_POST['Add'])) {
     <?php require "iniconfig.php" ?>
   </head>
   <body>
+    <!-----------------------navbar----------------------->
     <nav class="navbar navbar-dark bg-dark">
       <a class="navbar-brand">DATABASE EDITIOR</a>
       <ul class="nav nav-pills ml-3 mr-auto">
@@ -93,25 +93,27 @@ if (isset($_POST['Add'])) {
           <a class="nav-link" href="admindataview.php">View Table</a>
         </li>
         <li class="nav-item dropdown mx-1 ">
-          <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" href="#" aria-haspopup="true" aria-expanded="false">Insert</a>
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" href="#" aria-haspopup="true" aria-expanded="false">Insert and Purge</a>
           <div class="dropdown-menu">
-            <a class="dropdown-item" href="admineditsingle.php">single entry</a>
-            <a class="dropdown-item " href="admineditmulti.php">batch edit</a>
+            <a class="dropdown-item" href="admineditsingle.php">Data Entry</a>
+            <a class="dropdown-item " href="admineditmulti.php">Purge Data</a>
           </div>
         </li>
         <li class="nav-item mx-1">
-          <a class="nav-link active" href="adduser.php">Add User</a>
+          <a class="nav-link active" href="adduser.php">Add Admin</a>
         </li>
       </ul>
       <ul class="nav nav-pills float-left">
-       <li>
-         <a href="admin.php"> <img class="rounded-circle" src="<?= $_SESSION['propho']?>" alt=""></a>
+      <li style="border-left: 1px solid #000000;" >
+         <a style="margin-left: 5px;" href="admin.php"> <img class="rounded-circle" src="<?= $_SESSION['propho']?>" alt=""> <span><?= $_SESSION['name']?></span> </a>
        </li>
        <li class="nav-item mx-1">
          <a class="nav-link" href="logout.php">Logout</a>
        </li>
       </ul>
     </nav>
+
+    <!-------------------------------------content--------------------------->
     <div class="container">
         <div class="row">
           <h2>Add user</h2>
@@ -169,8 +171,7 @@ if (isset($_POST['Add'])) {
         </div>
 
         <script type="text/javascript">
-
-        
+        /*--function to preview images--*/
         $(document).ready(()=>{ 
           $('#photo').change(function(){ 
             const file = this.files[0]; 
@@ -185,7 +186,7 @@ if (isset($_POST['Add'])) {
             } 
           }); 
         }); 
-
+        /*--function to validate--*/
         $("#add").click(function (event) {
           var pass1 = $('#pass').val();
           var pass2 = $('#Rpass').val();
