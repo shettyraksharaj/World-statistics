@@ -18,8 +18,8 @@
       </ul>
       <ul class="nav nav-pills float-left">
       <li style="border-left: 1px solid #000000;" class="dropdown" >
-         <a style="margin-left: 25px; margin-right:10px; text-decoration:none" href="#" class="dropdown-toggle" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <img class="rounded-circle" src="<?= $_SESSION['propho']?>" alt=""> <span style='Color:#ffffff; font-weight:500;'><?= $_SESSION['name']?></span> </a>
-         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="left:-20%; top:120%" >
+         <a style="margin-left: 15px; margin-right:10px; text-decoration:none" href="#" class="dropdown-toggle" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span style='Color:#ffffff; font-weight:500;'><?= $_SESSION['name']?></span>  <img class="rounded-circle" src="<?= $_SESSION['propho']?>" alt=""> </a>
+         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="left:-30%; top:120%" >
             <a href="admin.php" class="dropdown-item"><i class="mr-3 fas fa-user"></i>Account</a>
             <div class="dropdown-divider"></div>
             <a  href="logout.php" class="dropdown-item"><i class="mr-3 fas fa-sign-out-alt"></i>Logout</a>
