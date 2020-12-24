@@ -12,39 +12,17 @@ if (!isset($_SESSION['admin'])) {
     <?php require 'iniconfig.php'?>
   </head>
   <body>
-    <nav class="navbar navbar-dark bg-dark">
-      <a class="navbar-brand">DATABASE EDITIOR</a>
-      <ul class="nav nav-pills ml-3 mr-auto">
-        <li class="nav-item mx-1">
-          <a class="nav-link" href="admindataview.php">View Table</a>
-        </li>
-        <li class="nav-item dropdown mx-1 ">
-          <a class="nav-link dropdown-toggle active" data-toggle="dropdown" role="button" href="#" aria-haspopup="true" aria-expanded="false">Insert and Purge</a>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="admineditsingle.php">Data Entry</a>
-            <a class="dropdown-item active" href="admineditmulti.php">Purge Data</a>
-          </div>
-        </li>
-        <li class="nav-item mx-1">
-          <a class="nav-link" href="adduser.php">Add Admin</a>
-        </li>
-      </ul>
-      <ul class="nav nav-pills float-left">
-      <li style="border-left: 1px solid #000000;" >
-         <a style="margin-left: 5px;" href="admin.php"> <img class="rounded-circle" src="<?= $_SESSION['propho']?>" alt=""> <span><?= $_SESSION['name']?></span> </a>
-       </li>
-       <li class="nav-item mx-1">
-         <a class="nav-link" href="logout.php">Logout</a>
-       </li>
-      </ul>
-    </nav>
+  <?php require'navbar.php'?>
+
+
     <div class="container" >
     <h2>Purge Data in Database:</h2>
-    <p><b>Warning:</b> Purging the Database will result in permanent loss of Data. </p>
+    <p><i class="fas fa-exclamation"></i> <b>Warning:</b> Purging the Database will result in permanent loss of Data. </p>
     <button type='button' class='btn btn-danger purgebtn' id='purgebtn' >Purge Database</button>
     </div>
     <div style='display:none;' id='alertwindow'>
             <div id='alertbox'>
+            <i class="fas fa-exclamation-triangle"></i>
               <p>Clicking on Yes will empty the Database are you sure.</p>
               <div class="row">
                 <button class='btn btn-primary mx-auto' id='confirm'>Yes</button>

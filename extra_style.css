@@ -4,6 +4,24 @@
     }
 }
 
+@keyframes spring {
+    0% {
+        transform: scale(1) translateY(0);
+    }
+    10% {
+        transform: scale(1.2, 0.6);
+    }
+    30% {
+        transform: scale(0.8, 1.1) translateY(-10px);
+    }
+    50% {
+        transform: scale(1) translateY(0);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
 .mainform {
     width: 100%;
 }
@@ -85,6 +103,10 @@
     width: 100% !important;
 }
 
+.dropdown-toggle::after {
+    display: none !important;
+}
+
 
 /*------------------------------------------super purge------------------------------*/
 
@@ -116,7 +138,7 @@
 
 #alertbox>p {
     text-align: center;
-    margin-top: 10%;
+    margin-top: 11%;
     font-size: 150%;
     font-weight: bold;
     margin-left: 2%;
@@ -126,6 +148,17 @@
 #alertbox>div>button {
     margin-top: 3%;
     width: 20%;
+}
+
+#alertbox>i {
+    position: absolute;
+    top: 8%;
+    right: 46%;
+    color: #ff0000;
+    font-size: 300%;
+    animation: spring;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
 }
 
 

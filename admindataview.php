@@ -29,34 +29,16 @@ if($rows = $tabledata->fetchall(PDO::FETCH_ASSOC)){
 </head>
 
 <body>
-  <nav class="navbar navbar-dark bg-dark">
-    <a class="navbar-brand">DATABASE EDITIOR</a>
-    <ul class="nav nav-pills ml-3 mr-auto">
-      <li class="nav-item mx-1">
-        <a class="nav-link active" href="admindataview.php">View table</a>
-      </li>
-      <li class="nav-item dropdown mx-1">
-        <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" href="#" aria-haspopup="true" aria-expanded="false">Insert and Purge</a>
-        <div class="dropdown-menu">
-          <a class="dropdown-item " href="admineditsingle.php">Data Entry</a>
-          <a class="dropdown-item" href="admineditmulti.php">Purge data</a>
-        </div>
-      </li>
-      <li class="nav-item mx-1">
-        <a class="nav-link" href="adduser.php">Add Admin</a>
-      </li>
-    </ul>
-    <ul class="nav nav-pills float-left">
-    <li style="border-left: 1px solid #000000;" >
-         <a style="margin-left: 5px;" href="admin.php"> <img class="rounded-circle" src="<?= $_SESSION['propho']?>" alt=""> <span><?= $_SESSION['name']?></span> </a>
-       </li>
-        <a class="nav-link" href="logout.php">Logout</a>
-      </li>
-    </ul>
-  </nav>
+<?php require'navbar.php'?>
+
   <div class="container" >
     <h2>View Data:</h2>
-
+    <div class="row form-group">
+    <div class="col-8 mx-auto">
+    <label for="filter">Search</label>
+    <input type="text" class="form-control" id='filter'>
+    </div>
+    </div>
     <!--******************************__table navbar__************************************-->
     <ul class="nav nav-tabs" role="tablist">
       <li class="nav-item ml-auto" role="presentation">
@@ -98,9 +80,12 @@ if($rows = $tabledata->fetchall(PDO::FETCH_ASSOC)){
           </thead>
           <tbody>
             <?php
-            for($i=0; $i < $rowcount; $i++){
-              echo "<tr><td>".$rows[$i]['COUNTRY_NAME']."</td><td style='width:12%;'><img style='width:45%;' src='".$rows[$i]['FLAG']."'></td><td>".$rows[$i]['POPULATION']."</td><td>".$rows[$i]['BIRTH_RATE']."</td><td>".$rows[$i]['DEATH_RATE']."</td><td style='width:15%;'><a href='update.php?id=".$rows[$i]['CON_ID']."' data-toggle='tooltip' data-placement='top' title='Edit'><img style='width:30%;' src='editicon.svg'></a>/<a href='delete.php?id=".$rows[$i]['CON_ID']."' data-toggle='tooltip' data-placement='top' title='Delete'><img style='width:30%;' src='delicon.svg'></a></td></tr>";
+            if (!empty($rows)) {
+              for($i=0; $i < $rowcount; $i++){
+                echo "<tr class='ro-con-".$i."'><td class='con-".$i."'>".$rows[$i]['COUNTRY_NAME']."</td><td style='width:12%;'><img style='width:45%;' src='".$rows[$i]['FLAG']."'></td><td>".$rows[$i]['POPULATION']."</td><td>".$rows[$i]['BIRTH_RATE']."</td><td>".$rows[$i]['DEATH_RATE']."</td><td style='width:15%;'><a href='update.php?id=".$rows[$i]['CON_ID']."' title='Edit' class='opbtn' ><img style='width:25%;' src='editicon.svg'></a>/<a href='delete.php?id=".$rows[$i]['CON_ID']."' title='Delete' class='opbtn' ><img style='width:25%;' src='delicon.svg'></a></td></tr>";
+              }
             }
+
             ?>
           </tbody>
         </table>
@@ -120,8 +105,10 @@ if($rows = $tabledata->fetchall(PDO::FETCH_ASSOC)){
           </thead>
           <tbody>
             <?php
-            for($i=0; $i < $rowcount; $i++){
-              echo "<tr><td>".$rows[$i]['COUNTRY_NAME']."</td><td>".$rows[$i]['GDP']."</td><td>".$rows[$i]['PERCAPITA']."</td><td>".$rows[$i]['POVERTY_PER']."</td><td>".$rows[$i]['CURRENCY']."</td><td style='width:15%;'><a href='update.php?id=".$rows[$i]['CON_ID']."' data-toggle='tooltip' data-placement='top' title='Edit'><img style='width:30%;' src='editicon.svg'></a>/<a href='delete.php?id=".$rows[$i]['CON_ID']."' data-toggle='tooltip' data-placement='top' title='Delete' ><img style='width:30%;' src='delicon.svg'></a></td></tr>";
+            if (!empty($rows)) {
+              for($i=0; $i < $rowcount; $i++){
+                echo "<tr class='ro-con-".$i."'><td class='con-".$i."'>".$rows[$i]['COUNTRY_NAME']."</td><td>".$rows[$i]['GDP']."</td><td>".$rows[$i]['PERCAPITA']."</td><td>".$rows[$i]['POVERTY_PER']."</td><td>".$rows[$i]['CURRENCY']."</td><td style='width:15%;'><a href='update.php?id=".$rows[$i]['CON_ID']."' title='Edit' class='opbtn' ><img style='width:25%;' src='editicon.svg'></a>/<a href='delete.php?id=".$rows[$i]['CON_ID']."' title='Delete' ><img style='width:25%;' src='delicon.svg'></a></td></tr>";
+              }
             }
             ?>
           </tbody>
@@ -139,8 +126,10 @@ if($rows = $tabledata->fetchall(PDO::FETCH_ASSOC)){
           </thead>
           <tbody>
             <?php
-            for($i=0; $i < $rowcount; $i++){
-              echo "<tr><td>".$rows[$i]['COUNTRY_NAME']."</td><td>".$rows[$i]['EPI_INDEX']."</td><td style='width:15%;'><a href='update.php?id=".$rows[$i]['CON_ID']."' data-toggle='tooltip' data-placement='top' title='Edit'><img style='width:30%;' src='editicon.svg'></a>/<a href='delete.php?id=".$rows[$i]['CON_ID']."' data-toggle='tooltip' data-placement='top' title='Delete'><img style='width:30%;' src='delicon.svg'></a></td></tr>";
+             if (!empty($rows)) {
+              for($i=0; $i < $rowcount; $i++){
+                echo "<tr class='ro-con-".$i."'><td class='con-".$i."'>".$rows[$i]['COUNTRY_NAME']."</td><td>".$rows[$i]['EPI_INDEX']."</td><td style='width:15%;'><a href='update.php?id=".$rows[$i]['CON_ID']."' title='Edit' class='opbtn' ><img style='width:25%;' src='editicon.svg'></a>/<a href='delete.php?id=".$rows[$i]['CON_ID']."' title='Delete' class='opbtn' ><img style='width:25%;' src='delicon.svg'></a></td></tr>";
+              }
             }
             ?>
           </tbody>
@@ -160,8 +149,10 @@ if($rows = $tabledata->fetchall(PDO::FETCH_ASSOC)){
           </thead>
           <tbody>
             <?php
-            for($i=0; $i < $rowcount; $i++){
-              echo "<tr><td>".$rows[$i]['COUNTRY_NAME']."</td><td>".$rows[$i]['BUDGET']."</td><td>".$rows[$i]['PERSONNEL']."</td><td>".$rows[$i]['NUCLEAR_WARHEAD']."</td><td style='width:15%;'><a href='update.php?id=".$rows[$i]['CON_ID']."' data-toggle='tooltip' data-placement='top' title='Edit'><img style='width:30%;' src='editicon.svg'></a>/<a href='delete.php?id=".$rows[$i]['CON_ID']."' data-toggle='tooltip' data-placement='top' title='Delete'><img style='width:30%;' src='delicon.svg'></a></td></tr>";
+             if (!empty($rows)) {
+              for($i=0; $i < $rowcount; $i++){
+                echo "<tr class='ro-con-".$i."'><td class='con-".$i."'>".$rows[$i]['COUNTRY_NAME']."</td><td>".$rows[$i]['BUDGET']."</td><td>".$rows[$i]['PERSONNEL']."</td><td>".$rows[$i]['NUCLEAR_WARHEAD']."</td><td style='width:15%;'><a href='update.php?id=".$rows[$i]['CON_ID']."' title='Edit' class='opbtn' ><img style='width:25%;' src='editicon.svg'></a>/<a href='delete.php?id=".$rows[$i]['CON_ID']."' title='Delete' class='opbtn' ><img style='width:25%;' src='delicon.svg'></a></td></tr>";
+              }
             }
             ?>
           </tbody>
@@ -179,8 +170,10 @@ if($rows = $tabledata->fetchall(PDO::FETCH_ASSOC)){
           </thead>
           <tbody>
             <?php
-            for($i=0; $i < $rowcount; $i++){
-              echo "<tr><td>".$rows[$i]['COUNTRY_NAME']."</td><td>".$rows[$i]['CRIME_RATE']."</td><td style='width:15%;'><a href='update.php?id=".$rows[$i]['CON_ID']."' data-toggle='tooltip' data-placement='top' title='Edit'><img style='width:30%;' src='editicon.svg'></a>/<a href='delete.php?id=".$rows[$i]['CON_ID']."' data-toggle='tooltip' data-placement='top' title='Delete'><img style='width:30%;' src='delicon.svg'></a></td></tr>";
+             if (!empty($rows)) {
+              for($i=0; $i < $rowcount; $i++){
+                echo "<tr class='ro-con-".$i."'><td class='con-".$i."'>".$rows[$i]['COUNTRY_NAME']."</td><td>".$rows[$i]['CRIME_RATE']."</td><td style='width:15%;'><a href='update.php?id=".$rows[$i]['CON_ID']."' title='Edit' class='opbtn' ><img style='width:25%;' src='editicon.svg'></a>/<a href='delete.php?id=".$rows[$i]['CON_ID']."' title='Delete' class='opbtn' ><img style='width:25%;' src='delicon.svg'></a></td></tr>";
+              }
             }
             ?>
           </tbody>
@@ -199,8 +192,10 @@ if($rows = $tabledata->fetchall(PDO::FETCH_ASSOC)){
           </thead>
           <tbody>
             <?php
-            for($i=0; $i < $rowcount; $i++){
-              echo "<tr><td>".$rows[$i]['COUNTRY_NAME']."</td><td>".$rows[$i]['CITED_DOC']."</td><td>".$rows[$i]['CITABLE_DOC']."</td><td style='width:15%;'><a href='update.php?id=".$rows[$i]['CON_ID']."' data-toggle='tooltip' data-placement='top' title='Edit'><img style='width:30%;' src='editicon.svg'></a>/<a href='delete.php?id=".$rows[$i]['CON_ID']."' data-toggle='tooltip' data-placement='top' title='Delete'><img style='width:30%;' src='delicon.svg'></a></td></tr>";
+             if (!empty($rows)) {
+              for($i=0; $i < $rowcount; $i++){
+                echo "<tr class='ro-con-".$i."'><td class='con-".$i."'>".$rows[$i]['COUNTRY_NAME']."</td><td>".$rows[$i]['CITED_DOC']."</td><td>".$rows[$i]['CITABLE_DOC']."</td><td style='width:15%;'><a href='update.php?id=".$rows[$i]['CON_ID']."' title='Edit' class='opbtn' ><img style='width:25%;' src='editicon.svg'></a>/<a href='delete.php?id=".$rows[$i]['CON_ID']."' title='Delete' class='opbtn' ><img style='width:25%;' src='delicon.svg'></a></td></tr>";
+              }
             }
             ?>
           </tbody>
@@ -221,8 +216,10 @@ if($rows = $tabledata->fetchall(PDO::FETCH_ASSOC)){
           </thead>
           <tbody>
             <?php
-            for($i=0; $i < $rowcount; $i++){
-              echo "<tr><td>".$rows[$i]['COUNTRY_NAME']."</td><td>".$rows[$i]['HEALTH_INDEX']."</td><td>".$rows[$i]['LITERACY_RATE']."</td><td>".$rows[$i]['LIFE_EXPECTANCY']."</td><td>".$rows[$i]['EDU_BUDGET']."</td><td style='width:15%;'><a href='update.php?id=".$rows[$i]['CON_ID']."' data-toggle='tooltip' data-placement='top' title='Edit'><img style='width:30%;' src='editicon.svg'></a>/<a href='delete.php?id=".$rows[$i]['CON_ID']."' data-toggle='tooltip' data-placement='top' title='Delete'><img style='width:30%;' src='delicon.svg'></a></td></tr>";
+             if (!empty($rows)) {
+              for($i=0; $i < $rowcount; $i++){
+                echo "<tr class='ro-con-".$i."'><td class='con-".$i."'>".$rows[$i]['COUNTRY_NAME']."</td><td>".$rows[$i]['HEALTH_INDEX']."</td><td>".$rows[$i]['LITERACY_RATE']."</td><td>".$rows[$i]['LIFE_EXPECTANCY']."</td><td>".$rows[$i]['EDU_BUDGET']."</td><td style='width:15%;'><a href='update.php?id=".$rows[$i]['CON_ID']."' title='Edit' class='opbtn' ><img style='width:25%;' src='editicon.svg'></a>/<a href='delete.php?id=".$rows[$i]['CON_ID']."' title='Delete' class='opbtn' ><img style='width:25%;' src='delicon.svg'></a></td></tr>";
+              }
             }
             ?>
           </tbody>
@@ -231,6 +228,24 @@ if($rows = $tabledata->fetchall(PDO::FETCH_ASSOC)){
     </div>
     <!--________________________end of tab content for table________________________-->
   </div>
+  <script>
+  $('#filter').keyup(function(event){
+    var filter = $('#filter').val();
+    var regx = new RegExp(filter);
+    var rows = $('table>tbody>tr>td:first-child').get();
+    var nor = rows.length / 7;
+    for(var i=0; i<nor ; i++){
+      var name = $(rows[i]).html();
+      var no = '.ro-con-'+i;
+      if(!regx.test(name)){
+        $(no).attr('style','display:none');
+      }else{
+        $(no).attr('style','');
+      }
+    }
+
+  })
+  </script>
 </body>
 
 </html>

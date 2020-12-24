@@ -99,6 +99,9 @@ if (isset($_POST['update'])) {
 </head>
 
 <body>
+  <div class="container">
+    <br>
+    <br>
   <h2>Update Values:</h2>
   <ul class="nav nav-tabs" role="tablist">
     <li class="nav-item ml-auto" role="presentation">
@@ -313,6 +316,7 @@ if (isset($_POST['update'])) {
             </div>
           </div>
           </form>
+          </div>
   <!--_________________________________tab-content end for insert module_________________________________________-->
   <script>
      $('#update').click(function(event){
