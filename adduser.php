@@ -17,7 +17,7 @@ if (isset($_POST['Add'])) {
     if ($imagesize<1024000) {
       if (in_array($imgext,$extyp)) {
         $img = new Imagick($imageiniloc);
-        $img->thumbnailImage(50,40);
+        $img->thumbnailImage(100,100);
         $img->writeImage($imageiniloc);
         if (!move_uploaded_file($imageiniloc,$imgNloc)) {
           $_SESSION['error'] = "Error: Unable to upload";
@@ -141,7 +141,8 @@ if (isset($_POST['Add'])) {
         </div>
         <div class="position-absolute imgprew" >
           <img src="admin_photos/profile-user.svg" alt="" id="imgPreview">
-          <p class="text-center">Preview</p>
+          <br>
+          <p class="text-center"><b>Preview:</b></p>
         </div>
 
         <script type="text/javascript">
