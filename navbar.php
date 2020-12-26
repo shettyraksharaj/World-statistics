@@ -1,5 +1,5 @@
 <nav class="navbar navbar-dark bg-dark">
-      <a class="navbar-brand">DATABASE EDITIOR</a>
+      <a class="navbar-brand">Admin Panel</a>
       <ul class="nav nav-pills ml-3 mr-auto">
         <li class="nav-item mx-1">
           <a class="nav-link" href="admindataview.php">View Table</a>

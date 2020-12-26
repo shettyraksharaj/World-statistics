@@ -45,13 +45,13 @@ if (isset($_POST['delete'])) {
         <h2>Delete Values:</h2>
         <div class="row mt-4">
             <div class="col-6">
-                <h4>values to be deleted:</h4>
+                <h4>Values to be deleted:</h4>
                 <div class="ml-5 mt-3">
                 <table>
                     <thead>
                         <tr>
-                            <th class="font-weight-bold">Fields</th>
-                            <th class="font-weight-bold">Values</th>
+                            <th class="font-weight-bold" style="font-size: 140%;">Fields: </th>
+                            <th class="font-weight-bold" style="font-size: 140%;">Values: </th>
                         </tr>
                     </thead>
                     <tbody>

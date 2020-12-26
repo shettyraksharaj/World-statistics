@@ -108,10 +108,10 @@ if (isset($_POST['update'])) {
       <a class="nav-link active" href="#insert-counpopeoc" id="insert-counpopeoc-tab" data-toggle="tab" role="tab" aria-controls="insert-counpopeoc" aria-selected="true">Country, Population and Economy</a>
     </li>
     <li class="nav-item" role="presentation">
-      <a class="nav-link" href="#insert-envmilcri" id="insert-envmilcri-tab" data-toggle="tab" role="tab" aria-controls="insert-envmilcri" aria-selected="false">Enviroment, Military and Crime</a>
+      <a class="nav-link" href="#insert-envmilcri" id="insert-envmilcri-tab" data-toggle="tab" role="tab" aria-controls="insert-envmilcri" aria-selected="false">Environment, Military and Crime</a>
     </li>
     <li class="nav-item mr-auto" role="presentation">
-      <a class="nav-link" href="#insert-coneduhealth" id="insert-coneduhealth-tab" data-toggle="tab" role="tab" aria-controls="insert-coneduhealth" aria-selected="false">Contribution To Techonology, Education and Health</a>
+      <a class="nav-link" href="#insert-coneduhealth" id="insert-coneduhealth-tab" data-toggle="tab" role="tab" aria-controls="insert-coneduhealth" aria-selected="false">Contribution To Technology, Education and Health</a>
     </li>
   </ul>
 
