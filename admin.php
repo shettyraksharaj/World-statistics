@@ -16,6 +16,7 @@ if ($row = $addata->fetch(PDO::FETCH_ASSOC)) {
     $row[$index] = htmlentities($row[$index]);
   }
 }
+$imgNloc = $row['admin_photo'];
 $_SESSION['propho'] = $row['admin_photo'];
 if (isset($_POST['submit'])) {
   if (isset($_FILES['adph']) && $_FILES['adph']['name'] != '') {
@@ -26,7 +27,6 @@ if (isset($_POST['submit'])) {
     $extyp = array("jpeg", "jpg", "gif", "png");
     $exp = explode(".", $adphname);
     $imgext = end($exp);
-    $imgNloc = "admin_photos" . "/" . time() . "." . $imgext;
     echo $adphiniloc;
     if ($adphuperr == 0) {
       if ($adphsize < 1024000) {
@@ -54,8 +54,6 @@ if (isset($_POST['submit'])) {
       header("location:admin.php");
       return;
     }
-  } else {
-    $imgNloc = "admin_photos/profile-user.svg";
   }
   $sql = 'UPDATE admin SET admin_photo = :ph WHERE admin_id = :aid';
   $upad = $data->prepare($sql);
