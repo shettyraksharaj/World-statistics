@@ -100,29 +100,24 @@ if (isset($_POST['submit'])) {
             </div>
           </div>
         </div>
-        <div class="col-6  ml-5">
-          <div class="container" style="margin:0px">
-            <div class="row shadow-lg rounded mb-4 ">
-              <div class="col-4 py-3">
-                <p class="Font-weight-bold" style="font-size: 110%;">Dark Mode: </p>
-              </div>
-              <div class="col-4 py-3">
-                <span><label class="switch">
+        <div class=" col-6  ml-5">
+          <div class="container">
+          <div class="shadow-lg rounded mb-4 ">
+              <div class="py-3 my-auto-2" style=" width:100%;margin:0px;">
+                <span class="Font-weight-bold ml-4 mt-2 mb-n1" style="font-size: 110%; ">Dark Mode:  </span>  <span><label class="switch">
                     <input type="checkbox">
                     <span class="slider round"></span>
                   </label></span>
               </div>
             </div>
-            <div class="row shadow-lg rounded mt-3 py-5" >
-              <div class="row mb-5">
-                <h4>Profile Photo:</h4>
-              </div>
-              <div class="row mx-3">
-                <img class="rounded-circle" src="<?= $row['admin_photo'] ?>" style=" border:4px solid #000000;width:100%">
-              </div>
-              <div class="row">
-                <button class="btn btn-primary" data-toggle="modal" data-target="#adminphotoM">Change</button>
-              </div>
+            <div class=" shadow-lg rounded">
+                <h4 class=" pl-3 pt-3">Profile Photo:</h4> 
+                <div class="row">
+                <img class="rounded-circle mx-auto" src="<?= $row['admin_photo'] ?>" style=" border:4px solid #000000;width:30%">
+                </div>
+                <div class="row mt-3 pb-3">
+                <button class="btn btn-primary mx-auto " data-toggle="modal" data-target="#adminphotoM">Change</button>
+                </div>
             </div>
           </div>
         </div>

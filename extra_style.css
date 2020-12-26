@@ -202,8 +202,8 @@
 .switch {
     position: relative;
     display: inline-block;
-    width: 35%;
-    height: 55%;
+    width: 8.25% !important;
+    height: 14%;
 }
 
 .switch input {
@@ -227,9 +227,9 @@
 .slider:before {
     position: absolute;
     content: "";
-    height: 15px;
-    width: 15px;
-    left: 4px;
+    height: 16px;
+    width: 16px;
+    left: 5px;
     bottom: 4px;
     background-color: white;
     -webkit-transition: .4s;
