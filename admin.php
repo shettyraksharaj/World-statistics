@@ -72,7 +72,7 @@ if (isset($_POST['submit'])) {
 
 <head>
   <meta charset="utf-8">
-  <title>Add User</title>
+  <title><?= $row['name'] ?>-Profile</title>
   <?php require "iniconfig.php" ?>
 </head>
 

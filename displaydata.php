@@ -17,7 +17,7 @@ foreach ($index as $y) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Stats-<?= $rows['COUNTRY_NAME'] ?></title>
     <?php require 'iniconfig.php'; ?>
 </head>
 

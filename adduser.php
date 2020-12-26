@@ -83,7 +83,7 @@ if (isset($_POST['Add'])) {
 
 <head>
   <meta charset="utf-8">
-  <title>Add User</title>
+  <title>Add Admin</title>
   <?php require "iniconfig.php" ?>
 </head>
 
