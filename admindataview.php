@@ -68,11 +68,11 @@ if($rows = $tabledata->fetchall(PDO::FETCH_ASSOC)){
       <!--_____________________________population________________________________-->
       <div class="tab-pane fad show container active" id="population" role="tabpanel" aria-labelledby="population-tab"> 
       <table class="table table-hover">
-          <thead class="thead-dark">
+          <thead>
             <tr>
               <th>Country</th>
               <th>Flag</th>
-              <th>Population</th>
+              <th>Population(bill)</th>
               <th>Birth Rate(%)</th>
               <th>Death Rate(%)</th>
               <th>Options</th>
@@ -93,10 +93,10 @@ if($rows = $tabledata->fetchall(PDO::FETCH_ASSOC)){
       <!--_____________________________economy________________________________-->
       <div class="tab-pane fade container" id="economy" role="tabpanel" aria-labeledby="economy-tab">
       <table class="table table-hover">
-          <thead class="thead-dark">
+          <thead>
             <tr>
               <th>Country</th>
-              <th>GDP($)</th>
+              <th>GDP($tri)</th>
               <th>Percapita($) </th>
               <th>Poverty Percentage(%)</th>
               <th>Currency</th>
@@ -117,7 +117,7 @@ if($rows = $tabledata->fetchall(PDO::FETCH_ASSOC)){
       <!--______________________________enviroment___________________________________-->
       <div class="tab-pane fade container" id="enviroment" role="tabpanel" aria-labelledby="enviroment-tab">
       <table class="table table-hover">
-          <thead class="thead-dark">
+          <thead>
             <tr>
               <th>Country</th>
               <th>EPI Score</th>
@@ -138,11 +138,11 @@ if($rows = $tabledata->fetchall(PDO::FETCH_ASSOC)){
       <!---_________________________________military___________________________________-->
       <div class="tab-pane fade container" id="military" role="tabpanel" aria-labelledby="military-tab">
       <table class="table table-hover">
-          <thead class="thead-dark">
+          <thead>
             <tr>
               <th>Country</th>
-              <th>Budget($)</th>
-              <th>Personnel</th>
+              <th>Budget($bil)</th>
+              <th>Personnel(mil)</th>
               <th>Nuclear Warhead</th>
               <th>Options</th>
             </tr>
@@ -161,7 +161,7 @@ if($rows = $tabledata->fetchall(PDO::FETCH_ASSOC)){
       <!--___________________________________crime_________________________________-->
       <div class="tab-pane fade container" id="crime" role="tabpanel" aria-labelledby="crime-tab">
       <table class="table table-hover">
-          <thead class="thead-dark">
+          <thead>
             <tr>
               <th>Country</th>
               <th>Crime Rate(%)</th>
@@ -182,7 +182,7 @@ if($rows = $tabledata->fetchall(PDO::FETCH_ASSOC)){
       <!--________________________________________techonology_______________________________-->
       <div class="tab-pane fade container" id="contribution" role="tabpanel" aria-labelledby="contribution-tab">
       <table class="table table-hover">
-          <thead class="thead-dark">
+          <thead>
             <tr>
               <th>Country</th>
               <th>Cited Document</th>
@@ -204,13 +204,13 @@ if($rows = $tabledata->fetchall(PDO::FETCH_ASSOC)){
       <!--__________________________________education and health______________________________-->
       <div class="tab-pane fade container" id="eduhealth" role="tabpanel" aria-labelledby="eduhealth-tab">
       <table class="table table-hover">
-          <thead class="thead-dark">
+          <thead>
             <tr>
               <th>Country</th>
               <th>Health Index</th>
               <th>Literacy Rate(%)</th>
               <th>Life Expectancy</th>
-              <th>Education Budget($)</th>
+              <th>Education Budget($bil)</th>
               <th>Options</th>
             </tr>
           </thead>

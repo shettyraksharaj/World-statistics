@@ -307,7 +307,7 @@ if (!isset($_SESSION['admin'])) {
         <!--_________________________________tab-content end for insert module_________________________________________-->
         <script>
           $("#insert").click(function (event) {
-            var regex = /^[0-9]*$/;
+            var regex = /^[.0-9]*$/;
             var numeleid = ['#population', '#death_rt', '#percap', '#epi', '#personnel', '#crime_rt', '#cb_doc', '#lit_rt', '#e_budget', '#birth_rt', '#povper', '#nuke', '#h_index', '#gdp', '#c_doc', '#m_budget', "#l_exp"];
             if($("#country_name").val() == ""){
               event.preventDefault();

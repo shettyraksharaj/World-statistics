@@ -72,7 +72,7 @@ w
               linkno++;
             }
             if (regex.test(jdata[i].COUNTRY_NAME)) {
-              $('#serresdisplay').append('<a class="dropdown-item" id="'+jdata[i].COUNTRY_NAME+'" href="#">'+jdata[i].COUNTRY_NAME+'</a>')
+              $('#serresdisplay').append('<a class="dropdown-item" id="'+jdata[i].COUNTRY_NAME+'" href="displaydata.php?id='+ jdata[i].CON_ID+'">'+jdata[i].COUNTRY_NAME+'</a>')
             }else{
             }
           }
