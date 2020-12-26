@@ -296,13 +296,3 @@ input:checked+.slider:before {
 .slider.round:before {
     border-radius: 50%;
 }
-
-
-/*function gensalt(){
-        $salt = "";
-        for($i=0; $i<10; $i++){
-          $r = chr(rand(37,122));
-          $salt = $salt.$r;
-
-        }
-      }*/
