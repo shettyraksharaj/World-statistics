@@ -21,50 +21,51 @@ print_r($row);
 
 
 if (isset($_POST['submit'])) {
-  if (isset($_FILES['adph'])&&$_FILES['adph']['name']!='') {
+  if (isset($_FILES['adph']) && $_FILES['adph']['name'] != '') {
     $adphname = $_FILES["adph"]['name'];
     $adphiniloc = $_FILES["adph"]['tmp_name'];
     $adphsize = $_FILES["adph"]['size'];
     $adphuperr = $_FILES["adph"]['error'];
     $extyp = array("jpeg", "jpg", "gif", "png");
-    $exp = explode(".",$adphname);
+    $exp = explode(".", $adphname);
     $imgext = end($exp);
-    $imgNloc = "admin_photos"."/".time().".".$imgext;
+    $imgNloc = "admin_photos" . "/" . time() . "." . $imgext;
     echo $adphiniloc;
-  if ($adphuperr == 0) {
-    if ($adphsize<1024000) {
-      if (in_array($imgext,$extyp)) {
-        $img = new Imagick($adphiniloc);
-        $img->thumbnailImage(100,100);
-        $img->writeImage($adphiniloc);
-        if (!move_uploaded_file($adphiniloc,$imgNloc)) {
-          $_SESSION['error'] = "Error: Unable to upload";
+    if ($adphuperr == 0) {
+      if ($adphsize < 1024000) {
+        if (in_array($imgext, $extyp)) {
+          $img = new Imagick($adphiniloc);
+          $img->thumbnailImage(100, 100);
+          $img->writeImage($adphiniloc);
+          if (!move_uploaded_file($adphiniloc, $imgNloc)) {
+            $_SESSION['error'] = "Error: Unable to upload";
+            header("location:admin.php");
+            return;
+          }
+        } else {
+          $_SESSION['error'] = "Invalid Format";
           header("location:admin.php");
           return;
         }
-      }else {
-        $_SESSION['error'] = "Invalid Format";
+      } else {
+        $_SESSION['error'] = "adph size too large";
         header("location:admin.php");
         return;
       }
-    }else {
-      $_SESSION['error'] = "adph size too large";
+    } else {
+      $_SESSION['error'] = "Error:Unable to upload";
       header("location:admin.php");
       return;
     }
-  }else {
-    $_SESSION['error'] = "Error:Unable to upload";
-    header("location:admin.php");
-    return;
+  } else {
+    $imgNloc = "admin_photos/profile-user.svg";
   }
-  }else{
-      $imgNloc = "admin_photos/profile-user.svg";
-  }
-  $sql = '  UPDATE `admin` SET admin_photo = :ph WHERE admin_id = :aid';
+  $sql = 'UPDATE admin SET admin_photo = :ph WHERE admin_id = :aid';
   $upad = $data->prepare($sql);
   $upad->execute(array(
-                      ':ph' => $imgNloc,
-                      ':aid' => $row['admin_id']));
+    ':ph' => $imgNloc,
+    ':aid' => $row['admin_id']
+  ));
   header('location:admin.php');
   return;
 }
@@ -90,7 +91,7 @@ if (isset($_POST['submit'])) {
           <div class="mt-4">
             <h4>Deatils:</h4>
             <div class=" mt-2 ml-5">
-              <p class="font-weight-bold" style="font-size: 130%;">Name: <span class="font-weight-normal"><?= $row['name'] ?></span</p> <p class="font-weight-bold" style="font-size: 130%;">Email: <span class="font-weight-normal"><?= $row['admin_id'] ?></span></p>
+              <p class="font-weight-bold" style="font-size: 130%;">Name: <span id="namefield" class="font-weight-normal"><?= $row['name'] ?></span</p> <p class="font-weight-bold" style="font-size: 130%;">Email: <span id="emailfield" class="font-weight-normal"><?= $row['admin_id'] ?></span></p>
             </div>
           </div>
           <div class="my-4">
@@ -143,7 +144,7 @@ if (isset($_POST['submit'])) {
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary">Save</button>
+          <button type="button" class="btn btn-primary" id="namesave">Save</button>
           <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
         </div>
       </div>
@@ -162,14 +163,29 @@ if (isset($_POST['submit'])) {
         </div>
         <div class="modal-body">
           <form method=post>
-            <div class="form-group">
-              <label for="email">Enter Email:</label>
-              <input type="Email" name="email" id="email" class="form-control">
+            <div class=" container form-group">
+              <div class="row">
+                <label for="email1">Enter Email:</label>
+                <input class="form-control " type="text" id="email1">
+                <div class="" id="invalid-id" style="Display:none;">
+                  Invalid ID.
+                </div>
+                <div class="" id="taken-id" style="Display:none;">
+                  ID already taken.
+                </div>
+              </div>
+              <div class="row">
+                <label for="email">Confirm Email:</label>
+                <input type="text" name="email2" id="email2" class="form-control">
+                <div class="invalid-feedback">
+                  IDs don't match.
+                </div>
+              </div>
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary">Save</button>
+          <button type="button" class="btn btn-primary" id="emailsave">Save</button>
           <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
         </div>
       </div>
@@ -191,13 +207,24 @@ if (isset($_POST['submit'])) {
             <div class="form-group">
               <label for="pass">Enter Current password:</label>
               <input type="password" name="pass" id="pass" class="form-control">
+              <div class="invalid-feedback">
+                  Incorrect Password.
+                  </div>
               <label for="npass">Enter New Password</label>
               <input type="password" name="npass" id="npass" class="form-control">
+              <div class="invalid-feedback">
+                  Enter Password.
+                  </div>
+              <label for="npass">Confirm Password</label>
+              <input type="password" name="npass" id="cnpass" class="form-control">
+              <div class="invalid-feedback">
+                  Password does not match.
+                  </div>
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary">Save</button>
+          <button type="button" class="btn btn-primary" id='passsave'>Save</button>
           <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
         </div>
       </div>
@@ -215,13 +242,13 @@ if (isset($_POST['submit'])) {
           </button>
         </div>
         <div class="modal-body">
-          <form method="post" enctype="multipart/form-data" >
-        <div class="form-group">
+          <form method="post" enctype="multipart/form-data">
+            <div class="form-group">
               <input class="form-file-control" type="file" name="adph">
             </div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary" name="submit" >Save</button>
+          <button type="submit" class="btn btn-primary" name="submit">Save</button>
           <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
         </div>
         </form>
@@ -229,5 +256,110 @@ if (isset($_POST['submit'])) {
     </div>
   </div>
 </body>
+<script>
+  /*-----------username------------*/
+  $('#namesave').click(function(event) {
+    var name = $('#name').val();
+    $.post('updatename.php', {
+      adname: name
+    }, function(data, status) {
+      console.log(status);
+      data = JSON.parse(data);
+      $('#namefield').html(data.name);
+    });
+  });
+
+  /*-------------email---------------*/
+  $('#emailsave').click(function(event) {
+    var id1 = $('#email1').val();
+    var id2 = $('#email2').val();
+    var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    if(id1 != ""){
+      $.post('updatemail.php', { ademail: id1, function: 0}, function(data, status) {
+        console.log(data);
+      if (data == 'true') {
+        $("#email1").attr("class","form-control");
+        $("#taken-id").attr("class"," ");
+        $("#taken-id").attr("style","display:none;");
+        if(!regex.test(id1)){
+              $("#email1").attr("class","form-control is-invalid");
+              $("#invalid-id").attr("class","invalid-feedback");
+              $("#invalid-id").attr("style","display:block;");
+            }else{
+              $("#email1").attr("class","form-control");
+              $("#invalid-id").attr("class"," ");
+              $("#invalid-id").attr("style","display:none;");
+              if(id1 != id2){
+              $("#email1").attr("class","form-control is-invalid");
+              $("#email2").attr("class","form-control is-invalid");
+              }else{
+              $("#email1").attr("class","form-control is-valid");
+              $("#email2").attr("class","form-control is-valid");
+              $.post('updatemail.php', { ademail: id1, function:1}, function(data, status) {
+                console.log(status);
+                data = JSON.parse(data);
+                console.log(data);
+              $('#emailfield').html(data.admin_id);
+              });
+             }
+            }
+          }else{
+            $("#email1").attr("class","form-control is-invalid");
+            $("#taken-id").attr("class","invalid-feedback");
+            $("#taken-id").attr("style","display:block;");
+          }});
+        }else{
+            $("#email1").attr("class","form-control is-invalid");
+            $("#invalid-id").attr("class","invalid-feedback");
+            $("#invalid-id").attr("style","display:block;");
+            }
+            });
+
+            /*-------------pass---------------*/
+  $('#emasave').click(function(event) {
+    var id1 = $('#email1').val();
+    var id2 = $('#email2').val();
+    var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    if(id1 != ""){
+      $.post('updatemail.php', { ademail: id1, function: 0}, function(data, status) {
+        console.log(data);
+      if (data == 'true') {
+        $("#email1").attr("class","form-control");
+        $("#taken-id").attr("class"," ");
+        $("#taken-id").attr("style","display:none;");
+        if(!regex.test(id1)){
+              $("#email1").attr("class","form-control is-invalid");
+              $("#invalid-id").attr("class","invalid-feedback");
+              $("#invalid-id").attr("style","display:block;");
+            }else{
+              $("#email1").attr("class","form-control");
+              $("#invalid-id").attr("class"," ");
+              $("#invalid-id").attr("style","display:none;");
+              if(id1 != id2){
+              $("#email1").attr("class","form-control is-invalid");
+              $("#email2").attr("class","form-control is-invalid");
+              }else{
+              $("#email1").attr("class","form-control is-valid");
+              $("#email2").attr("class","form-control is-valid");
+              $.post('updatemail.php', { ademail: id1, function:1}, function(data, status) {
+                console.log(status);
+                data = JSON.parse(data);
+                console.log(data);
+              $('#emailfield').html(data.admin_id);
+              });
+             }
+            }
+          }else{
+            $("#email1").attr("class","form-control is-invalid");
+            $("#taken-id").attr("class","invalid-feedback");
+            $("#taken-id").attr("style","display:block;");
+          }});
+        }else{
+            $("#email1").attr("class","form-control is-invalid");
+            $("#invalid-id").attr("class","invalid-feedback");
+            $("#invalid-id").attr("style","display:block;");
+            }
+            });
+</script>
 
 </html>
