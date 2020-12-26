@@ -20,7 +20,7 @@ if (!isset($_SESSION['admin'])) {
     <p><i class="fas fa-exclamation"></i> <b>Warning:</b> Purging the Database will result in permanent loss of Data. </p>
     <button type='button' class='btn btn-danger purgebtn' id='purgebtn' >Purge Database</button>
     </div>
-    <div style='display:none;' id='alertwindow'>
+    <div style='display:none; background:rgba(0,0,0,0.8);' id='alertwindow'>
             <div id='alertbox'>
             <i class="fas fa-exclamation-triangle"></i>
               <p>Clicking on Yes will empty the Database are you sure.</p>

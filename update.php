@@ -306,7 +306,7 @@ if (isset($_POST['update'])) {
         <button class="btn btn-danger" type="submit" name="cancel" value="cancel" id="cancel">Cancel</button>
       </div>
     </div>
-  <div style='display:none;' id='alertwindow'>
+  <div style='display:none; background:rgba(0,0,0,0.8)' id='alertwindow'>
             <div id='alertboxx'>
               <p>Previous values will be replaced with new ones.<br> Do you wish to proceed.</p>
               <div class="row">

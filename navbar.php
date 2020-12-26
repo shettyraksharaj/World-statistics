@@ -18,7 +18,7 @@
       </ul>
       <ul class="nav nav-pills float-left">
       <li style="border-left: 1px solid #000000; " class="dropdown" >
-         <a style="margin:  0px 0px 0px 15px ;text-decoration:none" href="#" class="dropdown-toggle" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span style='Color:#ffffff; font-weight:500;' id="prname"><?= $_SESSION['name']?></span>  <img class="rounded-circle" src="<?= $_SESSION['propho']?>" style=" margin-top: 3px; margin-right: -30px; margin-bottom: 2px; display:inline-block; width:35%; height:80%;"> </a>
+         <a style="margin:  0px 0px -10px 15px ;text-decoration:none" href="#" class="dropdown-toggle" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><p style='Color:#ffffff; font-weight:500; display:inline-block' id="prname"><?= $_SESSION['name']?></p>   <img class="rounded-circle" src="<?= $_SESSION['propho']?>" style=" margin-top: 3px; margin-right: -38px; display:inline-block; width:45%; height:80%;"></a>
          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="left:-30%; top:120%" >
             <a href="admin.php" class="dropdown-item"><i class="mr-3 fas fa-user"></i>Account</a>
             <div class="dropdown-divider"></div>
