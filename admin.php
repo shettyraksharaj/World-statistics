@@ -17,9 +17,6 @@ if ($row = $addata->fetch(PDO::FETCH_ASSOC)) {
   }
 }
 $_SESSION['propho'] = $row['admin_photo'];
-print_r($row);
-
-
 if (isset($_POST['submit'])) {
   if (isset($_FILES['adph']) && $_FILES['adph']['name'] != '') {
     $adphname = $_FILES["adph"]['name'];
@@ -86,8 +83,8 @@ if (isset($_POST['submit'])) {
   <div class="container mt-4">
     <h2><?= $row['name'] ?>'s Profile:</h2>
     <div class="container">
-      <div class="row">
-        <div class="col-6">
+      <div class="row mt-5">
+        <div class="col-4 shadow-lg rounded mr-5">
           <div class="mt-4">
             <h4>Deatils:</h4>
             <div class=" mt-2 ml-5">
@@ -103,23 +100,30 @@ if (isset($_POST['submit'])) {
             </div>
           </div>
         </div>
-        <div class="col-6">
-          <div class="my-5 row">
-            <div class="col-3">
-              <p class="Font-weight-bold" style="font-size: 110%;">Dark Mode: </p>
+        <div class="col-6  ml-5">
+          <div class="container" style="margin:0px">
+            <div class="row shadow-lg rounded mb-4 ">
+              <div class="col-4 py-3">
+                <p class="Font-weight-bold" style="font-size: 110%;">Dark Mode: </p>
+              </div>
+              <div class="col-4 py-3">
+                <span><label class="switch">
+                    <input type="checkbox">
+                    <span class="slider round"></span>
+                  </label></span>
+              </div>
             </div>
-            <div class="col-3">
-              <span><label class="switch">
-                  <input type="checkbox">
-                  <span class="slider round"></span>
-                </label></span>
+            <div class="row shadow-lg rounded mt-3 py-5" >
+              <div class="row mb-5">
+                <h4>Profile Photo:</h4>
+              </div>
+              <div class="row mx-3">
+                <img class="rounded-circle" src="<?= $row['admin_photo'] ?>" style=" border:4px solid #000000;width:100%">
+              </div>
+              <div class="row">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#adminphotoM">Change</button>
+              </div>
             </div>
-          </div>
-          <div class="mt-5">
-            <h4>Profile Photo:</h4>
-            <div><img class="rounded-circle" src="<?= $row['admin_photo'] ?>" style=" border:4px solid #000000;width:20%"></div>
-            <br>
-            <button class="btn btn-primary" data-toggle="modal" data-target="#adminphotoM">Change</button>
           </div>
         </div>
       </div>
@@ -205,21 +209,30 @@ if (isset($_POST['submit'])) {
         <div class="modal-body">
           <form method=post>
             <div class="form-group">
-              <label for="pass">Enter Current password:</label>
-              <input type="password" name="pass" id="pass" class="form-control">
-              <div class="invalid-feedback">
+              <div>
+                <label for="pass">Enter Current password:</label>
+                <input type="password" name="pass" id="cpass" class="form-control">
+                <div class="" id='incorrectpass' style="Display:none;">
                   Incorrect Password.
-                  </div>
-              <label for="npass">Enter New Password</label>
-              <input type="password" name="npass" id="npass" class="form-control">
-              <div class="invalid-feedback">
+                </div>
+                <div class="" id="nopass" style="Display:none;">
+                  Enter password.
+                </div>
+              </div>
+              <div>
+                <label for="npass">Enter New Password</label>
+                <input type="password" name="npass" id="npass" class="form-control">
+                <div class="invalid-feedback" id="nopass2">
                   Enter Password.
-                  </div>
-              <label for="npass">Confirm Password</label>
-              <input type="password" name="npass" id="cnpass" class="form-control">
-              <div class="invalid-feedback">
+                </div>
+              </div>
+              <div>
+                <label for="npass">Confirm Password</label>
+                <input type="password" name="npass" id="cnpass" class="form-control">
+                <div class="invalid-feedback">
                   Password does not match.
-                  </div>
+                </div>
+              </div>
             </div>
           </form>
         </div>
@@ -266,6 +279,7 @@ if (isset($_POST['submit'])) {
       console.log(status);
       data = JSON.parse(data);
       $('#namefield').html(data.name);
+      $('#prname').html(data.name);
     });
   });
 
@@ -274,92 +288,102 @@ if (isset($_POST['submit'])) {
     var id1 = $('#email1').val();
     var id2 = $('#email2').val();
     var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    if(id1 != ""){
-      $.post('updatemail.php', { ademail: id1, function: 0}, function(data, status) {
+    if (id1 != "") {
+      $.post('updatemail.php', {
+        ademail: id1,
+        function: 0
+      }, function(data, status) {
         console.log(data);
-      if (data == 'true') {
-        $("#email1").attr("class","form-control");
-        $("#taken-id").attr("class"," ");
-        $("#taken-id").attr("style","display:none;");
-        if(!regex.test(id1)){
-              $("#email1").attr("class","form-control is-invalid");
-              $("#invalid-id").attr("class","invalid-feedback");
-              $("#invalid-id").attr("style","display:block;");
-            }else{
-              $("#email1").attr("class","form-control");
-              $("#invalid-id").attr("class"," ");
-              $("#invalid-id").attr("style","display:none;");
-              if(id1 != id2){
-              $("#email1").attr("class","form-control is-invalid");
-              $("#email2").attr("class","form-control is-invalid");
-              }else{
-              $("#email1").attr("class","form-control is-valid");
-              $("#email2").attr("class","form-control is-valid");
-              $.post('updatemail.php', { ademail: id1, function:1}, function(data, status) {
+        if (data == 'true') {
+          $("#email1").attr("class", "form-control");
+          $("#taken-id").attr("class", " ");
+          $("#taken-id").attr("style", "display:none;");
+          if (!regex.test(id1)) {
+            $("#email1").attr("class", "form-control is-invalid");
+            $("#invalid-id").attr("class", "invalid-feedback");
+            $("#invalid-id").attr("style", "display:block;");
+          } else {
+            $("#email1").attr("class", "form-control");
+            $("#invalid-id").attr("class", " ");
+            $("#invalid-id").attr("style", "display:none;");
+            if (id1 != id2) {
+              $("#email1").attr("class", "form-control is-invalid");
+              $("#email2").attr("class", "form-control is-invalid");
+            } else {
+              $("#email1").attr("class", "form-control is-valid");
+              $("#email2").attr("class", "form-control is-valid");
+              $.post('updatemail.php', {
+                ademail: id1,
+                function: 1
+              }, function(data, status) {
                 console.log(status);
                 data = JSON.parse(data);
                 console.log(data);
-              $('#emailfield').html(data.admin_id);
+                $('#emailfield').html(data.admin_id);
               });
-             }
             }
-          }else{
-            $("#email1").attr("class","form-control is-invalid");
-            $("#taken-id").attr("class","invalid-feedback");
-            $("#taken-id").attr("style","display:block;");
-          }});
-        }else{
-            $("#email1").attr("class","form-control is-invalid");
-            $("#invalid-id").attr("class","invalid-feedback");
-            $("#invalid-id").attr("style","display:block;");
-            }
-            });
+          }
+        } else {
+          $("#email1").attr("class", "form-control is-invalid");
+          $("#taken-id").attr("class", "invalid-feedback");
+          $("#taken-id").attr("style", "display:block;");
+        }
+      });
+    } else {
+      $("#email1").attr("class", "form-control is-invalid");
+      $("#invalid-id").attr("class", "invalid-feedback");
+      $("#invalid-id").attr("style", "display:block;");
+    }
+  });
 
-            /*-------------pass---------------*/
-  $('#emasave').click(function(event) {
-    var id1 = $('#email1').val();
-    var id2 = $('#email2').val();
-    var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    if(id1 != ""){
-      $.post('updatemail.php', { ademail: id1, function: 0}, function(data, status) {
+  /*-------------pass---------------*/
+  $('#passsave').click(function(event) {
+    var cpass = $('#cpass').val();
+    var npass = $('#npass').val();
+    var cnpass = $('#cnpass').val();
+    if (cpass != '') {
+      $("#cpass").attr("class", "form-control");
+      $("#nopass").attr("class", " ");
+      $("#nopass").attr("style", "display:none;");
+      $.post('updatepass.php', {
+        cpass: cpass,
+        function: 0
+      }, function(data, status) {
         console.log(data);
-      if (data == 'true') {
-        $("#email1").attr("class","form-control");
-        $("#taken-id").attr("class"," ");
-        $("#taken-id").attr("style","display:none;");
-        if(!regex.test(id1)){
-              $("#email1").attr("class","form-control is-invalid");
-              $("#invalid-id").attr("class","invalid-feedback");
-              $("#invalid-id").attr("style","display:block;");
-            }else{
-              $("#email1").attr("class","form-control");
-              $("#invalid-id").attr("class"," ");
-              $("#invalid-id").attr("style","display:none;");
-              if(id1 != id2){
-              $("#email1").attr("class","form-control is-invalid");
-              $("#email2").attr("class","form-control is-invalid");
-              }else{
-              $("#email1").attr("class","form-control is-valid");
-              $("#email2").attr("class","form-control is-valid");
-              $.post('updatemail.php', { ademail: id1, function:1}, function(data, status) {
-                console.log(status);
-                data = JSON.parse(data);
+        if (data == 'true') {
+          console.log('correct');
+          $("#cpass").attr("class", "form-control is-valid");
+          if (npass != '') {
+            $("#npass").attr("class", "form-control is-valid");
+            if (npass == cnpass) {
+              $("#cnpass").attr("class", "form-control is-valid");
+              $.post('updatepass.php', {
+                npass: npass,
+                function: 1
+              }, function(data, status) {
                 console.log(data);
-              $('#emailfield').html(data.admin_id);
               });
-             }
+            } else {
+              $("#npass").attr("class", "form-control is-invalid");
+              $("#nopass2").attr("style", "display:none");
+              $("#cnpass").attr("class", "form-control is-invalid");
             }
-          }else{
-            $("#email1").attr("class","form-control is-invalid");
-            $("#taken-id").attr("class","invalid-feedback");
-            $("#taken-id").attr("style","display:block;");
-          }});
-        }else{
-            $("#email1").attr("class","form-control is-invalid");
-            $("#invalid-id").attr("class","invalid-feedback");
-            $("#invalid-id").attr("style","display:block;");
-            }
-            });
+          } else {
+            $("#npass").attr("class", "form-control is-invalid");
+          }
+        } else {
+          console.log('incorrect');
+          $("#cpass").attr("class", "form-control is-invalid");
+          $("#incorrectpass").attr("class", "invalid-feedback");
+          $("#incorrectpass").attr("style", "display:block;");
+        }
+      });
+    } else {
+      $("#cpass").attr("class", "form-control is-invalid");
+      $("#nopass").attr("class", "invalid-feedback");
+      $("#nopass").attr("style", "display:block;");
+    }
+  });
 </script>
 
 </html>
