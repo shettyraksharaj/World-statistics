@@ -243,8 +243,7 @@ if($rows = $tabledata->fetchall(PDO::FETCH_ASSOC)){
         $(no).attr('style','');
       }
     }
-
-  })
+  });
   </script>
 </body>
 

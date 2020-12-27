@@ -1,14 +1,30 @@
 <?php
 require 'database.php';
-$sql = 'SELECT * FROM COUNTRY JOIN CRIME JOIN ECONOMY JOIN EDU_AND_HEALTH JOIN ENVIROMENT JOIN MILITARY JOIN POPULATION JOIN TECHNOLOGY WHERE COUNTRY.CON_ID = CRIME.CON_ID AND COUNTRY.CON_ID = ECONOMY.CON_ID AND COUNTRY.CON_ID = EDU_AND_HEALTH.CON_ID AND COUNTRY.CON_ID = ENVIROMENT.CON_ID AND COUNTRY.CON_ID = MILITARY.CON_ID AND COUNTRY.CON_ID = POPULATION.CON_ID AND COUNTRY.CON_ID = TECHNOLOGY.CON_ID AND COUNTRY.CON_ID = :id';
-$displaydata = $data->prepare($sql);
-$displaydata->execute(array(':id' => $_GET['id']));
-$rows = $displaydata->fetch(PDO::FETCH_ASSOC);
-$index = array_keys($rows);
-foreach ($index as $y) {
-    $rows[$y] = $rows[$y] ? $rows[$y] : '-';
-    $rows[$y] = htmlentities($rows[$y]);
+
+if (isset($_GET['id'])) {
+    $sql = 'SELECT * FROM COUNTRY JOIN CRIME JOIN ECONOMY JOIN EDU_AND_HEALTH JOIN ENVIROMENT JOIN MILITARY JOIN POPULATION JOIN TECHNOLOGY WHERE COUNTRY.CON_ID = CRIME.CON_ID AND COUNTRY.CON_ID = ECONOMY.CON_ID AND COUNTRY.CON_ID = EDU_AND_HEALTH.CON_ID AND COUNTRY.CON_ID = ENVIROMENT.CON_ID AND COUNTRY.CON_ID = MILITARY.CON_ID AND COUNTRY.CON_ID = POPULATION.CON_ID AND COUNTRY.CON_ID = TECHNOLOGY.CON_ID AND COUNTRY.CON_ID = :id';
+    $displaydata = $data->prepare($sql);
+    $displaydata->execute(array(':id' => $_GET['id']));
+    $rows = $displaydata->fetch(PDO::FETCH_ASSOC);
+    $index = array_keys($rows);
+    foreach ($index as $y) {
+        $rows[$y] = $rows[$y] ? $rows[$y] : '-';
+        $rows[$y] = htmlentities($rows[$y]);
+    }
 }
+
+if (isset($_GET['name'])) {
+    $sql = 'SELECT * FROM COUNTRY JOIN CRIME JOIN ECONOMY JOIN EDU_AND_HEALTH JOIN ENVIROMENT JOIN MILITARY JOIN POPULATION JOIN TECHNOLOGY WHERE COUNTRY.CON_ID = CRIME.CON_ID AND COUNTRY.CON_ID = ECONOMY.CON_ID AND COUNTRY.CON_ID = EDU_AND_HEALTH.CON_ID AND COUNTRY.CON_ID = ENVIROMENT.CON_ID AND COUNTRY.CON_ID = MILITARY.CON_ID AND COUNTRY.CON_ID = POPULATION.CON_ID AND COUNTRY.CON_ID = TECHNOLOGY.CON_ID AND COUNTRY.COUNTRY_NAME = :name';
+    $displaydata = $data->prepare($sql);
+    $displaydata->execute(array(':name' => $_GET['name']));
+    $rows = $displaydata->fetch(PDO::FETCH_ASSOC);
+    $index = array_keys($rows);
+    foreach ($index as $y) {
+        $rows[$y] = $rows[$y] ? $rows[$y] : '-';
+        $rows[$y] = htmlentities($rows[$y]);
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -73,15 +89,15 @@ foreach ($index as $y) {
                     <p class="col-10">Currency: <?= $rows['CURRENCY'] ?>.</p>
                 </div>
             </div>
-            
-            
+
+
             <div class="col-4" style='background:#ffffff; '>
-            <img class="img-thumbnail mt-2 ml-3" src="<?= $rows['FLAG'] ?>" style="width:80%">
+                <img class="img-thumbnail mt-2 ml-3" src="<?= $rows['FLAG'] ?>" style="width:80%">
             </div>
 
 
-            </div>
-            <div class="row">
+        </div>
+        <div class="row">
 
             <div class="col-4" style='background:#ffffff;'>
                 <div class='row'>
@@ -132,8 +148,8 @@ foreach ($index as $y) {
                 </div>
             </div>
 
-            </div>
-            <div class="row">
+        </div>
+        <div class="row">
 
             <div class="col-4" style='background:#ffffff;'>
                 <div class="row">
