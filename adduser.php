@@ -179,37 +179,40 @@ if (isset($_POST['Add'])) {
       var id2 = $('#RAdmin_id').val();
       var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
       if (id1 != "") {
-            if (!regex.test(id1)) {
-              event.preventDefault();
-              $("#Admin_id").attr("class", "form-control col-4 is-invalid");
-              $("#invalid-id").attr("class", "invalid-feedback");
-              $("#invalid-id").attr("style", "display:block;");
-            } else {
+        if (!regex.test(id1)) {
+          event.preventDefault();
+          $("#Admin_id").attr("class", "form-control col-4 is-invalid");
+          $("#invalid-id").attr("class", "invalid-feedback");
+          $("#invalid-id").attr("style", "display:block;");
+        } else {
+          $("#Admin_id").attr("class", "form-control col-4");
+          $("#invalid-id").attr("class", " ");
+          $("#invalid-id").attr("style", "display:none;");
+          $.post('updatemail.php', {
+            ademail: id1,
+            function: 0
+          }, function(data, status) {
+            console.log(data);
+            if (data == 'true') {
               $("#Admin_id").attr("class", "form-control col-4");
-              $("#invalid-id").attr("class", " ");
-              $("#invalid-id").attr("style", "display:none;");
-              $.post('updatemail.php', {ademail: id1,function: 0}, function(data, status) {
-                console.log(data);
-                if (data == 'true') {
-                  $("#Admin_id").attr("class", "form-control col-4");
-                  $("#taken-id").attr("class", " ");
-                  $("#taken-id").attr("style", "display:none;");
-               } else {
-                 event.preventDefault();
-                 $("#Admin_id").attr("class", "form-control col-4 is-invalid");
-                 $("#taken-id").attr("class", "invalid-feedback");
-                 $("#taken-id").attr("style", "display:block;");
-                }});
+              $("#taken-id").attr("class", " ");
+              $("#taken-id").attr("style", "display:none;");
+              if (id1 != id2) {
+                event.preventDefault();
+                $("#Admin_id").attr("class", "form-control col-4 is-invalid");
+                $("#RAdmin_id").attr("class", "form-control col-4 is-invalid");
+              } else {
+                $("#Admin_id").attr("class", "form-control col-4 is-valid");
+                $("#RAdmin_id").attr("class", "form-control col-4 is-valid");
               }
-            if (id1 != id2) {
+            } else {
               event.preventDefault();
               $("#Admin_id").attr("class", "form-control col-4 is-invalid");
-              $("#RAdmin_id").attr("class", "form-control col-4 is-invalid");
-            } else {
-              $("#Admin_id").attr("class", "form-control col-4 is-valid");
-              $("#RAdmin_id").attr("class", "form-control col-4 is-valid");
+              $("#taken-id").attr("class", "invalid-feedback");
+              $("#taken-id").attr("style", "display:block;");
             }
-          
+          });
+        }
       } else {
         event.preventDefault();
         $("#Admin_id").attr("class", "form-control col-4 is-invalid");

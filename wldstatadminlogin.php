@@ -76,7 +76,7 @@ if(isset($_POST['Login'])){
   </head>
   <body class="logback">
     <div class="container">
-      <div class="border m-auto logbox shadow-lg p-5 bg-white rounded">
+      <div class="border m-auto logbox shadow-lg p-5 bg-white rounded" id='box' style='display:none;'>
         <h4 class="text-center pb-3">Admin Login</h4>
         <form method="post">
           <div class="from-group px-4">
@@ -102,5 +102,12 @@ if(isset($_POST['Login'])){
         </form>
       </div>
     </div>
+    <script>
+    $(window).on('load',function(){
+      $('#box').fadeIn(600);
+    })
+    
+    </script>
   </body>
 </html>
+
