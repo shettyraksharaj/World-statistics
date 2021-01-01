@@ -1,25 +1,29 @@
 <?php
+/*------start session-----*/
 session_start();
+/*-----------checking if the admin has logged in---------*/
 if (!isset($_SESSION['admin'])) {
   die('Access Denied');
 }
+/*------------check if user clicked add-------*/
 if (isset($_POST['Add'])) {
+   /*------------checking if user has uploaded a photo-----------*/
   if (isset($_FILES['Image']) && $_FILES['Image']['name'] != '') {
-    $imagename = $_FILES["Image"]['name'];
+    $imagename = $_FILES["Image"]['name'];//Assigning the file attributes to variables
     $imageiniloc = $_FILES["Image"]['tmp_name'];
     $imagesize = $_FILES["Image"]['size'];
     $imageuperr = $_FILES["Image"]['error'];
     $extyp = array("jpeg", "jpg", "gif", "png");
     $exp = explode(".", $imagename);
     $imgext = end($exp);
-    $imgNloc = "admin_photos" . "/" . time() . "." . $imgext;
-    if ($imageuperr == 0) {
-      if ($imagesize < 1024000) {
-        if (in_array($imgext, $extyp)) {
+    $imgNloc = "admin_photos" . "/" . time() . "." . $imgext;//Generating new file name which is unique using time function
+    if ($imageuperr == 0) { //checking for errors
+      if ($imagesize < 1024000) {//checking for file size
+        if (in_array($imgext, $extyp)) {//checking for file format
           $img = new Imagick($imageiniloc);
-          $img->thumbnailImage(100, 100);
-          $img->writeImage($imageiniloc);
-          if (!move_uploaded_file($imageiniloc, $imgNloc)) {
+          $img->thumbnailImage(100, 100);//scale the image
+          $img->writeImage($imageiniloc);//relpace the existing image with scaled image
+          if (!move_uploaded_file($imageiniloc, $imgNloc)) {//moving the file to a admin photo folder
             $_SESSION['error'] = "Error: Unable to upload";
             header("location:adduser.php");
             return;
@@ -40,9 +44,10 @@ if (isset($_POST['Add'])) {
       return;
     }
   } else {
-    $imgNloc = "admin_photos/profile-user.svg";
+    $imgNloc = "admin_photos/profile-user.svg";//assign default image
   }
   if (isset($_POST['Pass'])) {
+    /*----function to generate salt------*/
     function gensalt()
     {
       $salt = "";
@@ -52,6 +57,7 @@ if (isset($_POST['Add'])) {
       }
       return $salt;
     }
+    /*----function to generate hash------*/
     function genhash($password, $salt)
     {
       $pepper = "gh!#(dxgf500kl**o";
@@ -61,9 +67,10 @@ if (isset($_POST['Add'])) {
       }
       return $hash;
     }
-    $sal = gensalt();
-    $hashpass = genhash($_POST['Pass'], $sal);
-    require 'database.php';
+    $sal = gensalt();//generate salt
+    $hashpass = genhash($_POST['Pass'], $sal);//generate hash from password
+    require 'database.php';//add file to connect to database
+    /*------------SQL to insert data into database---------*/
     $sql = $data->prepare('INSERT INTO ADMIN (admin_id,name,password,salt,admin_photo) VALUES (:ADI,:NAM,:PASS,:SAL,:ADP)');
     $sql->execute(array(
       ':ADI' => $_POST['Admin_id'],
@@ -72,24 +79,23 @@ if (isset($_POST['Add'])) {
       ':SAL' => $sal,
       ':ADP' => $imgNloc
     ));
-    header("location:adduser.php");
+    header("location:adduser.php");//reroute to adduser page
     return;
   }
 }
 
 ?>
+<!----HTML---->
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-
 <head>
   <meta charset="utf-8">
   <title>Add Admin</title>
-  <?php require "iniconfig.php" ?>
+  <?php require "iniconfig.php" //including css files ?>
 </head>
-
 <body>
   <!-----------------------navbar----------------------->
-  <?php require 'navbar.php' ?>
+  <?php require 'navbar.php' // including navbar ?>
 
   <!-------------------------------------content--------------------------->
   <div class="container">
@@ -137,6 +143,7 @@ if (isset($_POST['Add'])) {
           <label for="photo">Admin Photo: </label>
           <input class="form-control-file" type="file" name="Image" id="photo">
           <p class="text-danger">
+            <!--------add error into html into page--------->
             <?php
             if (isset($_SESSION['error'])) {
               echo $_SESSION['error'];
@@ -149,12 +156,12 @@ if (isset($_POST['Add'])) {
       </form>
     </div>
   </div>
+  <!---Preveiw the uploaded image--->
   <div class="position-absolute imgprew">
     <img src="admin_photos/profile-user.svg" alt="" id="imgPreview">
     <br>
     <p class="text-center"><b>Preview:</b></p>
   </div>
-
   <script type="text/javascript">
     /*--function to preview images--*/
     $(document).ready(() => {

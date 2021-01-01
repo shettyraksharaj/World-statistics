@@ -1,3 +1,4 @@
+<!--HTML for navbar-->
 <nav class="navbar navbar-dark bg-dark">
       <a class="navbar-brand">Admin Panel</a>
       <ul class="nav nav-pills ml-3 mr-auto">

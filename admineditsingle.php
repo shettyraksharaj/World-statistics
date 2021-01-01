@@ -1,23 +1,26 @@
 <?php
+/*------start session-----*/
 session_start();
+/*-----------checking if the admin has logged in---------*/
 if (!isset($_SESSION['admin'])) {
   die('Access Denied');
 }
- require 'database.php';
+ require 'database.php';//add file to connect to database
+ /*----------Checking if the user has clicked on submit----------*/
   if (isset($_POST['Submit'])) {
+    /*------------checking if user has uploaded a photo-----------*/
     if (isset($_FILES['flag'])&& $_FILES['flag']['name']!='') {
-      $flagname = $_FILES["flag"]['name'];
+      $flagname = $_FILES["flag"]['name']; //Assigning the file attributes to variables
       $flaginiloc = $_FILES["flag"]['tmp_name'];
       $flagsize = $_FILES["flag"]['size'];
       $flaguperr = $_FILES["flag"]['error'];
       $exp = explode(".",$flagname);
       $imgext = end($exp);
-      $imgNloc = "flags"."/".time().".".$imgext;
-    if ($flaguperr == 0) {
-      if ($flagsize<1024000) {
-        if ($imgext == "svg") {
-          if (move_uploaded_file($flaginiloc,$imgNloc)) {
-          }else {
+      $imgNloc = "flags"."/".time().".".$imgext;//Generating new file name which is unique using time function
+    if ($flaguperr == 0) { //checking for errors
+      if ($flagsize<1024000) { //checking for file size
+        if ($imgext == "svg") { //checking for file format
+          if (!move_uploaded_file($flaginiloc,$imgNloc)) { //moving the file to a flag folder
             $_SESSION['error'] = "Error: Unable to upload";
             header("location:admineditsingle.php");
             return;
@@ -38,24 +41,27 @@ if (!isset($_SESSION['admin'])) {
       return;
     }
     }else{
-        $imgNloc = "flags/flags.svg";
+        $imgNloc = "flags/flags.svg";//assigning default flag in case no file has be uploaded
     }
+    /*-------------------SQL query to insert data into Country table--------------*/
       $sql = $data->prepare('INSERT INTO COUNTRY (COUNTRY_NAME,FLAG) VALUES (:CON_NAM,:FLAG)');
       $sql->execute(array(
                     ':CON_NAM'=>$_POST["country_name"],
                     ':FLAG'=>$imgNloc));
       $cid = $data->lastInsertId('con_id');
-      echo $cid;
+    /*-------------------SQL query to insert data into Population table--------------*/
       $sql = $data->prepare('INSERT INTO POPULATION (CON_ID,POPULATION,BIRTH_RATE,DEATH_RATE) VALUES (:cid,:pop,:b_rt,:d_rt)');
       $sql->execute(array(
                           ':cid' => $cid,
                           ':pop' => $_POST['population'] == "" ? NULL : $_POST['population'],
                           ':b_rt' => $_POST['birth_rt'] == "" ? NULL : $_POST['birth_rt'] ,
                           ':d_rt' => $_POST['death_rt'] == "" ? NULL : $_POST['death_rt']));
+    /*-------------------SQL query to insert data into Crime table--------------*/
       $sql = $data->prepare('INSERT INTO CRIME (CON_ID,CRIME_RATE) VALUES (:cid,:c_rt)');
       $sql->execute(array(
                           ':cid' => $cid,
                           ':c_rt' => $_POST['crime_rt'] == "" ? NULL : $_POST['crime_rt']));
+    /*-------------------SQL query to insert data into Econommy table--------------*/
       $sql = $data->prepare('INSERT INTO ECONOMY (CON_ID,GDP,PERCAPITA,POVERTY_PER,CURRENCY) VALUES (:cid,:gdp,:pcap,:pov,:cur)');
       $sql->execute(array(
                           ':cid' => $cid,
@@ -63,6 +69,7 @@ if (!isset($_SESSION['admin'])) {
                           ':pcap' => $_POST['percap'] == "" ? NULL : $_POST['percap'],
                           ':pov' => $_POST['povper'] == "" ? NULL : $_POST['povper'],
                           ':cur' => $_POST['cur']));
+    /*-------------------SQL query to insert data into Edu_And_Health table--------------*/
       $sql = $data->prepare('INSERT INTO EDU_AND_HEALTH (CON_ID,HEALTH_INDEX,LITERACY_RATE,LIFE_EXPECTANCY,EDU_BUDGET) VALUES (:cid,:h_ix,:l_rt,:l_ex,:edu_bg)');
       $sql->execute(array(
                           ':cid'=>$cid,
@@ -70,35 +77,38 @@ if (!isset($_SESSION['admin'])) {
                           ':l_rt'=>$_POST['lit_rt'] == "" ? NULL : $_POST['lit_rt'],
                           ':l_ex'=>$_POST['l_exp'] == "" ? NULL : $_POST['l_exp'],
                           ':edu_bg'=>$_POST['e_budget'] == "" ? NULL : $_POST['e_budget']));
+    /*-------------------SQL query to insert data into Enviroment table--------------*/
       $sql = $data->prepare('INSERT INTO ENVIROMENT (CON_ID,EPI_INDEX) VALUES (:cid,:e_ix)');
       $sql->execute(array(
                           ':cid'=>$cid,
                           ':e_ix'=>$_POST['epi'] == "" ? NULL : $_POST['epi']));
+    /*-------------------SQL query to insert data into Military table--------------*/
       $sql = $data->prepare('INSERT INTO MILITARY (CON_ID,BUDGET,PERSONNEL,NUCLEAR_WARHEAD) VALUES (:cid,:bdg,:pernl,:nuke)');
       $sql->execute(array(
                           ':cid'=>$cid,
                           ':bdg'=>$_POST['m_budget'] == "" ? NULL : $_POST['m_budget'],
                           ':pernl'=>$_POST['personnel'] == "" ? NULL : $_POST['personnel'],
                           ':nuke'=>$_POST['nuke'] == "" ? NULL : $_POST['nuke']));
+    /*-------------------SQL query to insert data into Technology table--------------*/
       $sql = $data->prepare('INSERT INTO TECHNOLOGY (CON_ID,CITED_DOC,CITABLE_DOC) VALUES (:cid,:ci_doc,:cibl_doc)');
       $sql->execute(array(
                           ':cid'=>$cid,
                           ':ci_doc'=>$_POST['c_doc'] == "" ? NULL : $_POST['c_doc'],
                           ':cibl_doc'=>$_POST['cb_doc'] == "" ? NULL : $_POST['cb_doc']));
-      header("location:admineditsingle.php");
+      header("location:admineditsingle.php");//Reroute to the same page
       return;
    }
  ?>
+ <!------HTML----->
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
     <title>Database Editior</title>
-    <?php require 'iniconfig.php'?>
+    <?php require 'iniconfig.php' //including css files ?>
   </head>
   <body>
-    <!--+++++++++++++++++++++___navbar___++++++++++++++++++++++++++-->
-    <?php require'navbar.php'?>
+    <?php require'navbar.php' // including navbar ?>
 
     <div class="container">
     <h1>Data Entry:</h1>
@@ -306,25 +316,25 @@ if (!isset($_SESSION['admin'])) {
       </div>
         <!--_________________________________tab-content end for insert module_________________________________________-->
         <script>
+        /*-------input validation--------*/
           $("#insert").click(function (event) {
-            var regex = /^[.0-9]*$/;
+            var regex = /^[.0-9]*$/; //Regex to validate the the number
             var numeleid = ['#population', '#death_rt', '#percap', '#epi', '#personnel', '#crime_rt', '#cb_doc', '#lit_rt', '#e_budget', '#birth_rt', '#povper', '#nuke', '#h_index', '#gdp', '#c_doc', '#m_budget', "#l_exp"];
-            if($("#country_name").val() == ""){
+            if($("#country_name").val() == ""){//checking if country field is filled
               event.preventDefault();
               $("#country_name").attr("class","form-control  is-invalid");
             }else{
               $("#country_name").attr("class","form-control  is-valid");
             }
-            if($("#cur").val() == ""){
+            if($("#cur").val() == ""){ // checking is currency field is filled
               event.preventDefault();
               $("#cur").attr("class","form-control  is-invalid");
             }else{
               $("#cur").attr("class","form-control  is-valid");
             }
-            "cur"
             for(var i = 0; i< numeleid.length; i++){
               $
-                if(regex.test($(numeleid[i]).val())){
+                if(regex.test($(numeleid[i]).val())){//checking if numerical value are entered in the numerical fields
                   $(numeleid[i]).attr("class","form-control  is-valid");
                 }else{
                   event.preventDefault();

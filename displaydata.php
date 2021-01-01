@@ -1,7 +1,9 @@
 <?php
+/*-----Including required files-----*/
 require 'database.php';
-
+/*------------fetch data of the country using the country id-----------------*/
 if (isset($_GET['id'])) {
+    /*-----SQL query to fetch query data---------*/
     $sql = 'SELECT * FROM COUNTRY JOIN CRIME JOIN ECONOMY JOIN EDU_AND_HEALTH JOIN ENVIROMENT JOIN MILITARY JOIN POPULATION JOIN TECHNOLOGY WHERE COUNTRY.CON_ID = CRIME.CON_ID AND COUNTRY.CON_ID = ECONOMY.CON_ID AND COUNTRY.CON_ID = EDU_AND_HEALTH.CON_ID AND COUNTRY.CON_ID = ENVIROMENT.CON_ID AND COUNTRY.CON_ID = MILITARY.CON_ID AND COUNTRY.CON_ID = POPULATION.CON_ID AND COUNTRY.CON_ID = TECHNOLOGY.CON_ID AND COUNTRY.CON_ID = :id';
     $displaydata = $data->prepare($sql);
     $displaydata->execute(array(':id' => $_GET['id']));
@@ -12,8 +14,9 @@ if (isset($_GET['id'])) {
         $rows[$y] = htmlentities($rows[$y]);
     }
 }
-
+/*------------fetch data of the country using the country name-----------------*/
 if (isset($_GET['name'])) {
+    /*-----SQL query to fetch query data---------*/
     $sql = 'SELECT * FROM COUNTRY JOIN CRIME JOIN ECONOMY JOIN EDU_AND_HEALTH JOIN ENVIROMENT JOIN MILITARY JOIN POPULATION JOIN TECHNOLOGY WHERE COUNTRY.CON_ID = CRIME.CON_ID AND COUNTRY.CON_ID = ECONOMY.CON_ID AND COUNTRY.CON_ID = EDU_AND_HEALTH.CON_ID AND COUNTRY.CON_ID = ENVIROMENT.CON_ID AND COUNTRY.CON_ID = MILITARY.CON_ID AND COUNTRY.CON_ID = POPULATION.CON_ID AND COUNTRY.CON_ID = TECHNOLOGY.CON_ID AND COUNTRY.COUNTRY_NAME = :name';
     $displaydata = $data->prepare($sql);
     $displaydata->execute(array(':name' => $_GET['name']));
@@ -26,28 +29,27 @@ if (isset($_GET['name'])) {
 }
 
 ?>
-
+<!------HTML-------->
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stats-<?= $rows['COUNTRY_NAME'] ?></title>
-    <?php require 'iniconfig.php'; ?>
+    <?php require 'iniconfig.php'; //including css files ?>
 </head>
 
 <body style='background: #F0F1F0;'>
-
-
+    <!----------------Navbar------------------>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <ul class="nav nav-pills float-right mr-5">
             <a href="index.php"><button class='btn btn-dark'><i class="fas fa-arrow-left"></i> Back</button></a>
         </ul>
         <a class="navbar-brand font-weight-bold" href="index.php">World Statistics</a>
     </nav>
+    <!------------------Heading---------------->
     <h1 class="ml-3">Stats of <?= $rows['COUNTRY_NAME'] ?></h1>
-    <div class="container">
+    <div class="container" id='box' style='display:none;'>
         <div class="row mt-3">
             <div class="col-4" style='background:#ffffff;'>
                 <div class="row">
@@ -66,8 +68,6 @@ if (isset($_GET['name'])) {
                     <p class="col-10">Death Rate: <?= $rows['DEATH_RATE'] ?>%. <span style="font-size:70%;">(per 1000 persons)</span> </p>
                 </div>
             </div>
-
-
             <div class="col-4" style='background:#ffffff;'>
                 <div class='row'>
                     <h5 class='ml-2 mt-1'>Economy:</h5>
@@ -89,16 +89,11 @@ if (isset($_GET['name'])) {
                     <p class="col-10">Currency: <?= $rows['CURRENCY'] ?>.</p>
                 </div>
             </div>
-
-
             <div class="col-4" style='background:#ffffff; '>
                 <img class="img-thumbnail mt-2 ml-3" src="<?= $rows['FLAG'] ?>" style="width:80%">
             </div>
-
-
         </div>
         <div class="row">
-
             <div class="col-4" style='background:#ffffff;'>
                 <div class='row'>
                     <h5 class='ml-2 mt-1'>Crime:</h5>
@@ -108,8 +103,6 @@ if (isset($_GET['name'])) {
                     <p class="col-10">Crime Rate: <?= $rows['CRIME_RATE'] ?>%.<span style="font-size:70%;">(per 100k persons)</p>
                 </div>
             </div>
-
-
             <div class="col-4" style='background:#ffffff;'>
                 <div class='row'>
                     <h5 class='ml-2 mt-1'>Technology and Research:</h5>
@@ -123,9 +116,6 @@ if (isset($_GET['name'])) {
                     <p class="col-10">Citeble Document: <?= $rows['CITABLE_DOC'] ?>.</p>
                 </div>
             </div>
-
-
-
             <div class="col-4" style='background:#ffffff;'>
                 <div class='row'>
                     <h5 class='ml-2 mt-1'>Education and Health:</h5>
@@ -147,10 +137,8 @@ if (isset($_GET['name'])) {
                     <p class="col-10">Education Budget: <?= $rows['EDU_BUDGET'] ?>$ Billion.</p>
                 </div>
             </div>
-
         </div>
         <div class="row">
-
             <div class="col-4" style='background:#ffffff;'>
                 <div class="row">
                     <h5 class='ml-2 mt-1'>Environment:</h5>
@@ -160,9 +148,6 @@ if (isset($_GET['name'])) {
                     <p class="col-10">EPI Score: <?= $rows['EPI_INDEX'] ?>.</p>
                 </div>
             </div>
-
-
-
             <div class="col-4" style='background:#ffffff;'>
                 <div class='row'>
                     <h5 class='ml-2 mt-1'>Military:</h5>
@@ -180,21 +165,24 @@ if (isset($_GET['name'])) {
                     <p class="col-10">Nuclear Warheads: <?= $rows['NUCLEAR_WARHEAD'] ?>.</p>
                 </div>
             </div>
-
             <div class="col-4" style='background:#ffffff;'>
                 <h5 class='ml-2 mt-1'>Charts:</h5>
                 <p>Poverty Percentage:</p>
                 <div class="progress" style="height: 20px;">
-                    <div class="progress-bar bg-dark" role="progressbar" style="width: <?= $rows['POVERTY_PER'] ?>%;" aria-valuenow="<?= $rows['POVERTY_PER'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar bg-dark" role="progressbar" style="width: <?= $rows['POVERTY_PER'] ?>%;" aria-valuenow="<?= $rows['POVERTY_PER'] ?>" aria-valuemin="0" aria-valuemax="100"><?= $rows['POVERTY_PER'] ?>%</div>
                 </div>
                 <p>Literacy Rate:</p>
                 <div class="progress mb-3" style="height: 20px;">
-                    <div class="progress-bar bg-dark" role="progressbar" style="width: <?= $rows['LITERACY_RATE'] ?>%;" aria-valuenow="<?= $rows['LITERACY_RATE'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar bg-dark" role="progressbar" style="width: <?= $rows['LITERACY_RATE'] ?>%;" aria-valuenow="<?= $rows['LITERACY_RATE'] ?>" aria-valuemin="0" aria-valuemax="100"><?= $rows['LITERACY_RATE'] ?>%</div>
                 </div>
             </div>
         </div>
     </div>
-
+    <script>
+        /*---Javascript to add animation------*/
+        $(window).on('load',function(){
+            $('#box').fadeIn(700);
+        })
+    </script>
 </body>
-
 </html>

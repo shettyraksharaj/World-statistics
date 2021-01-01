@@ -1,40 +1,43 @@
 <?php
+/*------start session-----*/
 session_start();
+/*-----------checking if the admin has logged in---------*/
 if (!isset($_SESSION['admin'])) {
   die('Access Denied');
 }
-require 'database.php';
+require 'database.php';//add file to connect to database
+/*----query to get all data from database------*/
 $thsql = 'SELECT * FROM COUNTRY JOIN CRIME JOIN ECONOMY JOIN EDU_AND_HEALTH JOIN ENVIROMENT JOIN MILITARY JOIN POPULATION JOIN TECHNOLOGY WHERE COUNTRY.CON_ID = CRIME.CON_ID AND COUNTRY.CON_ID = ECONOMY.CON_ID AND COUNTRY.CON_ID = EDU_AND_HEALTH.CON_ID AND COUNTRY.CON_ID = ENVIROMENT.CON_ID AND COUNTRY.CON_ID = MILITARY.CON_ID AND COUNTRY.CON_ID = POPULATION.CON_ID AND COUNTRY.CON_ID = TECHNOLOGY.CON_ID';
 $tabledata = $data->prepare($thsql);
 $tabledata->execute();
 $rows;
-if($rows = $tabledata->fetchall(PDO::FETCH_ASSOC)){
+if($rows = $tabledata->fetchall(PDO::FETCH_ASSOC)){//fetch all rows
   $rowcount = count($rows);
   $index = array_keys($rows[0]);
   for($i=0; $i < $rowcount; $i++){
     foreach($index as $y){
-      $rows[$i][$y] = $rows[$i][$y]? $rows[$i][$y] : '-';
+      $rows[$i][$y] = $rows[$i][$y]? $rows[$i][$y] : '-';//adding hyphen to null data
       $rows[$i][$y] = htmlentities($rows[$i][$y]);
     }
   }
 }
 ?>
+
+<!------HTML----->
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-
 <head>
   <meta charset="utf-8">
   <title>Database Editior</title>
-  <?php require 'iniconfig.php' ?>
+  <?php require 'iniconfig.php' //including css files ?>
 </head>
-
 <body>
-<?php require'navbar.php'?>
-
+<?php require'navbar.php'  // including navbar ?>
   <div class="container" >
     <h2>View Data:</h2>
     <div class="row form-group">
     <div class="col-8 mx-auto">
+    <!---------filter search bar------->
     <label for="filter">Search</label>
     <input type="text" class="form-control" id='filter'>
     </div>
@@ -79,6 +82,7 @@ if($rows = $tabledata->fetchall(PDO::FETCH_ASSOC)){
             </tr>
           </thead>
           <tbody>
+            <!-----Dynamically generate the table using php------------------>
             <?php
             if (!empty($rows)) {
               for($i=0; $i < $rowcount; $i++){
@@ -104,6 +108,7 @@ if($rows = $tabledata->fetchall(PDO::FETCH_ASSOC)){
             </tr>
           </thead>
           <tbody>
+            <!-----Dynamically generate the table using php------------------>
             <?php
             if (!empty($rows)) {
               for($i=0; $i < $rowcount; $i++){
@@ -125,6 +130,7 @@ if($rows = $tabledata->fetchall(PDO::FETCH_ASSOC)){
             </tr>
           </thead>
           <tbody>
+            <!-----Dynamically generate the table using php------------------>
             <?php
              if (!empty($rows)) {
               for($i=0; $i < $rowcount; $i++){
@@ -148,6 +154,7 @@ if($rows = $tabledata->fetchall(PDO::FETCH_ASSOC)){
             </tr>
           </thead>
           <tbody>
+            <!-----Dynamically generate the table using php------------------>
             <?php
              if (!empty($rows)) {
               for($i=0; $i < $rowcount; $i++){
@@ -169,6 +176,7 @@ if($rows = $tabledata->fetchall(PDO::FETCH_ASSOC)){
             </tr>
           </thead>
           <tbody>
+            <!-----Dynamically generate the table using php------------------>
             <?php
              if (!empty($rows)) {
               for($i=0; $i < $rowcount; $i++){
@@ -191,6 +199,7 @@ if($rows = $tabledata->fetchall(PDO::FETCH_ASSOC)){
             </tr>
           </thead>
           <tbody>
+            <!-----Dynamically generate the table using php------------------>
             <?php
              if (!empty($rows)) {
               for($i=0; $i < $rowcount; $i++){
@@ -215,6 +224,7 @@ if($rows = $tabledata->fetchall(PDO::FETCH_ASSOC)){
             </tr>
           </thead>
           <tbody>
+            <!-----Dynamically generate the table using php------------------>
             <?php
              if (!empty($rows)) {
               for($i=0; $i < $rowcount; $i++){
@@ -229,6 +239,7 @@ if($rows = $tabledata->fetchall(PDO::FETCH_ASSOC)){
     <!--________________________end of tab content for table________________________-->
   </div>
   <script>
+  /*-------Javascript to handle search and filter functionality of the search bar-----*/
   $('#filter').keyup(function(event){
     var filter = $('#filter').val();
     var regx = new RegExp(filter);

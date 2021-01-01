@@ -1,6 +1,8 @@
 <!--controller-->
 <?php
+/*-----------starting a session----------------*/
 session_start();
+
 $adidbar = ((isset($_SESSION['adidbar'])? $_SESSION['adidbar']:'<input class="form-control" type="email" name="Admin_id" placeholder="sugarkitty@cat.com">') );
 $paswdbar = ((isset($_SESSION['paswdbar'])? $_SESSION['paswdbar']:'<input class="form-control" type="password" name="Password">') );
 /*---------connecting to database-------------------*/
@@ -15,12 +17,13 @@ function genhash($password, $salt){
   return $hash;
 
 }
-
+/*--------check if cancel button has been clicked--------*/
 if(isset($_POST['Cancel'])) {
-  header("location:index.php");
+  header("location:index.php");//redirect to index page
   return;
 }
 
+/*------------------check if login putton has been clicked-------*/
 if(isset($_POST['Login'])){
   if(isset($_POST['Admin_id']) && strlen($_POST['Admin_id'])>0){
     /*------fetching userdata from database-------*/
@@ -31,7 +34,7 @@ if(isset($_POST['Login'])){
       echo("Exception message:".$e->getMessage());
       return;
     }
-    /*----checking is admin id exists----*/
+    /*----checking if admin id exists----*/
     if (isset($admindata['admin_id'])) {
       /*--checking the password--*/
       if(isset($_POST['Password']) && strlen($_POST['Password'])>0){
@@ -75,6 +78,7 @@ if(isset($_POST['Login'])){
     <?php require 'iniconfig.php'; ?>
   </head>
   <body class="logback">
+    <!----------login box------------>
     <div class="container">
       <div class="border m-auto logbox shadow-lg p-5 bg-white rounded" id='box' style='display:none;'>
         <h4 class="text-center pb-3">Admin Login</h4>
@@ -82,7 +86,6 @@ if(isset($_POST['Login'])){
           <div class="from-group px-4">
             <label for="username">Admin username:</label>
             <?php
-            /*--------------add js to remove invalid when typing new credentials------------------*/
             echo $adidbar;
             $_SESSION['adidbar'] = '<input class="form-control" type="email" name="Admin_id" placeholder="sugarkitty@cat.com">';
              ?>
@@ -90,7 +93,6 @@ if(isset($_POST['Login'])){
           <div class="form-group px-4">
             <label for="password">Password:</label>
             <?php
-            /*--------------add js to remove invalid when typing new credentials------------------*/
             echo $paswdbar;
             $_SESSION['paswdbar'] = '<input class="form-control" type="password" name="Password">';
              ?>
@@ -103,10 +105,10 @@ if(isset($_POST['Login'])){
       </div>
     </div>
     <script>
+      /*---Javascript to add animation----*/
     $(window).on('load',function(){
       $('#box').fadeIn(600);
     })
-    
     </script>
   </body>
 </html>

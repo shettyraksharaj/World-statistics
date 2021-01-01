@@ -1,12 +1,13 @@
 <?php
+/*------start session-----*/
 session_start();
-
+/*-----------checking if the admin has logged in---------*/
 if (!isset($_SESSION['admin'])) {
   die('Access Denied');
 }
 
-require 'database.php';
-
+require 'database.php';//add file to connect to database
+/*-------SQL query to fetch data from database with matching admin id---*/
 $sql = 'Select * from admin where admin_id = :id';
 $addata = $data->prepare($sql);
 $addata->execute(array(':id' => $_SESSION['admin']));
@@ -16,11 +17,13 @@ if ($row = $addata->fetch(PDO::FETCH_ASSOC)) {
     $row[$index] = htmlentities($row[$index]);
   }
 }
-$imgNloc = $row['admin_photo'];
-$_SESSION['propho'] = $row['admin_photo'];
+$imgNloc = $row['admin_photo'];//assign existing file location 
+$_SESSION['propho'] = $row['admin_photo'];//update photo loc in session
+/*------------check if user clicked submit----------------*/
 if (isset($_POST['submit'])) {
+  /*------------checking if user has uploaded a photo-----------*/
   if (isset($_FILES['adph']) && $_FILES['adph']['name'] != '') {
-    $adphname = $_FILES["adph"]['name'];
+    $adphname = $_FILES["adph"]['name'];//Assigning the file attributes to variables
     $adphiniloc = $_FILES["adph"]['tmp_name'];
     $adphsize = $_FILES["adph"]['size'];
     $adphuperr = $_FILES["adph"]['error'];
@@ -28,13 +31,13 @@ if (isset($_POST['submit'])) {
     $exp = explode(".", $adphname);
     $imgext = end($exp);
     echo $adphiniloc;
-    if ($adphuperr == 0) {
-      if ($adphsize < 1024000) {
-        if (in_array($imgext, $extyp)) {
+    if ($adphuperr == 0) {//checking for errors
+      if ($adphsize < 1024000) {//checking for file size
+        if (in_array($imgext, $extyp)) {//checking for file format
           $img = new Imagick($adphiniloc);
-          $img->thumbnailImage(100, 100);
-          $img->writeImage($adphiniloc);
-          if (!move_uploaded_file($adphiniloc, $imgNloc)) {
+          $img->thumbnailImage(100, 100);//scale the image
+          $img->writeImage($adphiniloc);//relpace the existing image with scaled image
+          if (!move_uploaded_file($adphiniloc, $imgNloc)) {//moving the file to a admin photo folder
             $_SESSION['error'] = "Error: Unable to upload";
             header("location:admin.php");
             return;
@@ -55,29 +58,29 @@ if (isset($_POST['submit'])) {
       return;
     }
   }
+  /*-------SQL query to update the image---------*/
   $sql = 'UPDATE admin SET admin_photo = :ph WHERE admin_id = :aid';
   $upad = $data->prepare($sql);
   $upad->execute(array(
     ':ph' => $imgNloc,
     ':aid' => $row['admin_id']
   ));
-  header('location:admin.php');
+  header('location:admin.php');//Reroute the to admin page
   return;
 }
 
 ?>
-
+<!----HTML---->
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-
 <head>
   <meta charset="utf-8">
   <title><?= $row['name'] ?>-Profile</title>
-  <?php require "iniconfig.php" ?>
+  <?php require "iniconfig.php" //including css files ?>
 </head>
 
 <body>
-  <?php require 'navbar.php' ?>
+  <?php require 'navbar.php' // including navbar ?>
   <div class="container mt-4">
     <h2><?= $row['name'] ?>'s Profile:</h2>
     <div class="container">
@@ -99,15 +102,6 @@ if (isset($_POST['submit'])) {
           </div>
         </div>
         <div class=" col-6  ml-5">
-          <div class="container">
-          <div class="shadow-lg rounded mb-4 ">
-              <div class="py-3 my-auto-2" style=" width:100%;margin:0px;">
-                <span class="Font-weight-bold ml-4 mt-2 mb-n1" style="font-size: 110%; ">Dark Mode:  </span>  <span><label class="switch">
-                    <input type="checkbox">
-                    <span class="slider round"></span>
-                  </label></span>
-              </div>
-            </div>
             <div class=" shadow-lg rounded">
                 <h4 class=" pl-3 pt-3">Profile Photo:</h4> 
                 <div class="row">
@@ -117,7 +111,6 @@ if (isset($_POST['submit'])) {
                 <button class="btn btn-primary mx-auto " data-toggle="modal" data-target="#adminphotoM">Change</button>
                 </div>
             </div>
-          </div>
         </div>
       </div>
     </div>
@@ -263,7 +256,7 @@ if (isset($_POST['submit'])) {
   </div>
 </body>
 <script>
-  /*-----------username------------*/
+  /*-----------Javascript to update username------------*/
   $('#namesave').click(function(event) {
     var name = $('#name').val();
     $.post('updatename.php', {
@@ -276,7 +269,7 @@ if (isset($_POST['submit'])) {
     });
   });
 
-  /*-------------email---------------*/
+  /*-------------Javascript to update email---------------*/
   $('#emailsave').click(function(event) {
     var id1 = $('#email1').val();
     var id2 = $('#email2').val();
@@ -329,7 +322,7 @@ if (isset($_POST['submit'])) {
     }
   });
 
-  /*-------------pass---------------*/
+  /*-------------Javascript to update pass---------------*/
   $('#passsave').click(function(event) {
     var cpass = $('#cpass').val();
     var npass = $('#npass').val();
