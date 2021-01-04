@@ -1,4 +1,7 @@
 <?php
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
 /*-----Including required files-----*/
 require 'database.php';
 /*------------fetch data of the country using the country id-----------------*/

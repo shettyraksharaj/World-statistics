@@ -1,4 +1,7 @@
 <?php
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
 /*------start session-----*/
 session_start();
 /*-----------checking if the admin has logged in---------*/
@@ -36,7 +39,11 @@ if (isset($_POST['update'])) {
     $flaguperr = $_FILES["flag"]['error'];
     $exp = explode(".", $flagname);
     $imgext = end($exp);
-    $imgNloc = $row['FLAG']; //assigning the existing file location as the new file location
+    if($row['FLAG'] == 'flags/flags.svg'){
+      $imgNloc = "flags"."/".time().".".$imgext;//Generating new file name which is unique using time function
+    }else{
+      $imgNloc = $row['FLAG']; //assigning the existing file location as the new file location
+    }
     if ($flaguperr == 0) { //checking for errors
       if ($flagsize < 1024000) { //checking for file size
         if ($imgext == "svg") { //checking for file format

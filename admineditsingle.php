@@ -1,4 +1,7 @@
 <?php
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
 /*------start session-----*/
 session_start();
 /*-----------checking if the admin has logged in---------*/
@@ -136,7 +139,7 @@ if (!isset($_SESSION['admin'])) {
               <div class="form-group my-4">
                 <label for="country_name">Country Name:</label>
                 <div class="col-6">
-                  <input class="form-control" type="text" name="country_name" placeholder="India" id="country_name">
+                  <input class="form-control" type="text" name="country_name" id="country_name">
                   <div class="invalid-feedback">
                     Field cannot be empty.
                   </div>
@@ -308,7 +311,7 @@ if (!isset($_SESSION['admin'])) {
           </div>
         </div>
         <div class="form-group row">
-          <div class="mx-auto position-absolute submitbtn">
+          <div class="mx-auto mb-n1 position-absolute submitbtn">
             <button class="btn btn-primary" type="submit" name="Submit" value="submit" id="insert">Insert</button>
           </div>
         </div>

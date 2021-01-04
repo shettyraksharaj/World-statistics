@@ -1,3 +1,15 @@
+<?php
+if($_SESSION['propho']== 'admin_photos/profile-user.svg'){
+  $proimg = '<a style="margin:  0px 0px -10px 15px ;text-decoration:none" href="#" class="dropdown-toggle" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><p style="Color:#ffffff; font-weight:500; display:inline-block" id="prname">'. $_SESSION['name'].'</p>   <img class="rounded-circle" src="'. $_SESSION['propho'].'" style=" margin-top: 3px; margin-right: 1px; display:inline-block; width:45%; height:80%;"></a>';
+}else{
+  $proimg = '<a style="margin:  0px 0px -10px 15px ;text-decoration:none" href="#" class="dropdown-toggle" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><p style="Color:#ffffff; font-weight:500; display:inline-block" id="prname">'. $_SESSION['name'].'</p>   <img class="rounded-circle" src="'. $_SESSION['propho'].'" style=" margin-top: 3px; margin-right: -38px; display:inline-block; width:45%; height:80%;"></a>';
+}
+
+
+?>
+
+
+
 <!--HTML for navbar-->
 <nav class="navbar navbar-dark bg-dark">
       <a class="navbar-brand">Admin Panel</a>
@@ -19,7 +31,7 @@
       </ul>
       <ul class="nav nav-pills float-left">
       <li style="border-left: 1px solid #000000; " class="dropdown" >
-         <a style="margin:  0px 0px -10px 15px ;text-decoration:none" href="#" class="dropdown-toggle" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><p style='Color:#ffffff; font-weight:500; display:inline-block' id="prname"><?= $_SESSION['name']?></p>   <img class="rounded-circle" src="<?= $_SESSION['propho']?>" style=" margin-top: 3px; margin-right: -38px; display:inline-block; width:45%; height:80%;"></a>
+         <?= $proimg ?>
          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="left:-30%; top:120%" >
             <a href="admin.php" class="dropdown-item"><i class="mr-3 fas fa-user"></i>Account</a>
             <div class="dropdown-divider"></div>

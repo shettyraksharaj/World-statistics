@@ -1,4 +1,7 @@
 <?php
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
 /*------start session-----*/
 session_start();
 /*-----------checking if the admin has logged in---------*/
@@ -6,7 +9,7 @@ if (!isset($_SESSION['admin'])) {
   die('Access Denied');
 }
 
-require 'database.php';//add file to connect to database
+require 'database.php'; //add file to connect to database
 /*-------SQL query to fetch data from database with matching admin id---*/
 $sql = 'Select * from admin where admin_id = :id';
 $addata = $data->prepare($sql);
@@ -17,27 +20,30 @@ if ($row = $addata->fetch(PDO::FETCH_ASSOC)) {
     $row[$index] = htmlentities($row[$index]);
   }
 }
-$imgNloc = $row['admin_photo'];//assign existing file location 
-$_SESSION['propho'] = $row['admin_photo'];//update photo loc in session
+$_SESSION['propho'] = $row['admin_photo']; //update photo loc in session
 /*------------check if user clicked submit----------------*/
 if (isset($_POST['submit'])) {
   /*------------checking if user has uploaded a photo-----------*/
   if (isset($_FILES['adph']) && $_FILES['adph']['name'] != '') {
-    $adphname = $_FILES["adph"]['name'];//Assigning the file attributes to variables
+    $adphname = $_FILES["adph"]['name']; //Assigning the file attributes to variables
     $adphiniloc = $_FILES["adph"]['tmp_name'];
     $adphsize = $_FILES["adph"]['size'];
     $adphuperr = $_FILES["adph"]['error'];
     $extyp = array("jpeg", "jpg", "gif", "png");
     $exp = explode(".", $adphname);
     $imgext = end($exp);
-    echo $adphiniloc;
-    if ($adphuperr == 0) {//checking for errors
-      if ($adphsize < 1024000) {//checking for file size
-        if (in_array($imgext, $extyp)) {//checking for file format
+    if ($row['admin_photo'] == 'admin_photos/profile-user.svg') {
+      $imgNloc = "admin_photos"."/".time().".".$imgext;//Generating new file name which is unique using time function;
+    }else{
+      $imgNloc = $row['admin_photo']; //assign existing file location 
+    }
+    if ($adphuperr == 0) { //checking for errors
+      if ($adphsize < 1024000) { //checking for file size
+        if (in_array($imgext, $extyp)) { //checking for file format
           $img = new Imagick($adphiniloc);
-          $img->thumbnailImage(100, 100);//scale the image
-          $img->writeImage($adphiniloc);//relpace the existing image with scaled image
-          if (!move_uploaded_file($adphiniloc, $imgNloc)) {//moving the file to a admin photo folder
+          $img->thumbnailImage(100, 100); //scale the image
+          $img->writeImage($adphiniloc); //relpace the existing image with scaled image
+          if (!move_uploaded_file($adphiniloc, $imgNloc)) { //moving the file to a admin photo folder
             $_SESSION['error'] = "Error: Unable to upload";
             header("location:admin.php");
             return;
@@ -65,31 +71,49 @@ if (isset($_POST['submit'])) {
     ':ph' => $imgNloc,
     ':aid' => $row['admin_id']
   ));
-  header('location:admin.php');//Reroute the to admin page
+  header('location:admin.php'); //Reroute the to admin page
   return;
 }
 
+/*-------check if the user clicked on delete---------*/
+if (isset($_POST['delete'])) {
+  /*-----------SQL query to delete account----------*/
+  $sql = 'DELETE FROM ADMIN WHERE admin_id = :aid';
+  $dead = $data->prepare($sql);
+  $dead->execute(array(':aid' => $_SESSION['admin']));
+  if($_SESSION['propho'] != 'admin_photos/profile-user.svg'){
+    unlink($_SESSION['propho']);
+  }
+  session_destroy();
+  header('location:index.php'); //Reroute the to admin page
+  return;
+  
+}
 ?>
 <!----HTML---->
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
 <head>
   <meta charset="utf-8">
   <title><?= $row['name'] ?>-Profile</title>
-  <?php require "iniconfig.php" //including css files ?>
+  <?php require "iniconfig.php" //including css files 
+  ?>
 </head>
 
 <body>
-  <?php require 'navbar.php' // including navbar ?>
+  <?php require 'navbar.php' // including navbar 
+  ?>
   <div class="container mt-4">
     <h2><?= $row['name'] ?>'s Profile:</h2>
     <div class="container">
       <div class="row mt-5">
-        <div class="col-4 shadow-lg rounded mr-5">
+        <div class="col-4 shadow rounded mr-5">
           <div class="mt-4">
             <h4>Deatils:</h4>
             <div class=" mt-2 ml-5">
-              <p class="font-weight-bold" style="font-size: 130%;">Name: <span id="namefield" class="font-weight-normal"><?= $row['name'] ?></span</p> <p class="font-weight-bold" style="font-size: 130%;">Email: <span id="emailfield" class="font-weight-normal"><?= $row['admin_id'] ?></span></p>
+              <p class="font-weight-bold" style="font-size: 130%;">Name: <span id="namefield" class="font-weight-normal"><?= $row['name'] ?></span< /p>
+                  <p class="font-weight-bold" style="font-size: 130%;">Email: <span id="emailfield" class="font-weight-normal"><?= $row['admin_id'] ?></span></p>
             </div>
           </div>
           <div class="my-4">
@@ -102,15 +126,21 @@ if (isset($_POST['submit'])) {
           </div>
         </div>
         <div class=" col-6  ml-5">
-            <div class=" shadow-lg rounded">
-                <h4 class=" pl-3 pt-3">Profile Photo:</h4> 
-                <div class="row">
-                <img class="rounded-circle mx-auto" src="<?= $row['admin_photo'] ?>" style=" border:4px solid #000000;width:30%">
-                </div>
-                <div class="row mt-3 pb-3">
-                <button class="btn btn-primary mx-auto " data-toggle="modal" data-target="#adminphotoM">Change</button>
-                </div>
+          <div class="shadow rounded">
+            <div class="row">
+              <h4 class="my-3 ml-4">Delete account:</h4>
+              <button class='ml-5 my-3 btn btn-danger' data-toggle="modal" data-target="#deleteuserM">Delete Account</button>
             </div>
+          </div>
+          <div class="shadow rounded mt-3">
+            <h4 class=" pl-3 pt-3">Profile Photo:</h4>
+            <div class="row">
+              <img class="rounded-circle mx-auto" src="<?= $row['admin_photo'] ?>" style=" border:4px solid #000000;width:30%">
+            </div>
+            <div class="row mt-3 pb-3">
+              <button class="btn btn-primary mx-auto " data-toggle="modal" data-target="#adminphotoM">Change</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -240,8 +270,8 @@ if (isset($_POST['submit'])) {
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
+        <form method="post" enctype="multipart/form-data">
         <div class="modal-body">
-          <form method="post" enctype="multipart/form-data">
             <div class="form-group">
               <input class="form-file-control" type="file" name="adph">
             </div>
@@ -250,6 +280,31 @@ if (isset($_POST['submit'])) {
           <button type="submit" class="btn btn-primary" name="submit">Save</button>
           <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
         </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!----------modal-5------------->
+  <div class="modal fade" id="deleteuserM" tabindex="-1" aria-labelledby="deleteusermodal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Delete Account:</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form method=post>
+          <div class="modal-body">
+            <div class="form-group">
+              <p>Your account will be permenantly deleted.</p>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" type='submit' name='delete'>Delete</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
         </form>
       </div>
     </div>

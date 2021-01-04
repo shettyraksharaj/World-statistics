@@ -1,4 +1,7 @@
 <?
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
 /*------start session-----*/
 session_start();
 /*-----------checking if the admin has logged in---------*/
@@ -34,6 +37,8 @@ if (isset($_POST['delete'])) {
     $delsql = 'DELETE FROM COUNTRY WHERE CON_ID = :id';//query to delete the row with the matiching id
     $deldata = $data->prepare($delsql);
     $deldata->execute(array(':id'=>$_GET['id']));
+    print_r($_POST['floc']);
+    unlink($_POST['floc']);
     header('location:admindataview.php');//Rerouting back to main page
     return;
 }
@@ -95,7 +100,8 @@ if (isset($_POST['delete'])) {
             <i class="fas fa-exclamation-triangle"></i>
               <p>Clicking on Yes will empty the Database are you sure.</p>
               <form method='post'>
-              <div class="row">
+              <div class="row mb-2">
+                <input type="hidden" name="floc" value="<?= $row['FLAG'] ?>">
                 <button class='btn btn-primary mx-auto' type="submit" name='delete' id='confirm'>Yes</button>
                 <button class='btn btn-danger mx-auto' id='cancel'>Cancel</button>
               </div>
