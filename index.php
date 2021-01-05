@@ -38,59 +38,8 @@ if ($rows = $tabledata->fetchall(PDO::FETCH_ASSOC)) {
 </head>
 
 <body>
-  <!------------background video------------------>
-  <video src="bckvid.mp4 " class="position-fixed bckimg view1" autoplay="autoplay" loop="loop">
-  </video>
-  <div class="container mt-5 view1 vari" value='1'>
-    <div class="row align-items-start">
-      <h1 class="col display-1 text-center text-white font-weight-bold">WORLD STATISTICS</h1>
-      <!--------Page heading---------->
-    </div>
-    <div class="row align-items-center moresty">
-      <form class="mainform" method="post">
-        <div class="form-group dropdown">
-          <!----------Search bar------------>
-          <input class="form-control form-control-lg ser dropdown-toggle" type="text" id="searchbar" name="id" placeholder="Country name..." data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <div class="dropdown-menu" aria-labelledby="searchbar" style="width:100%; margin-top:-1px" id='serresdisplay'>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
-  <!----------Change view toggle bar------------->
-  <span class="container position-fixed viewbar ">
-    <div id='viewchange' type='button' class="position-relative">
-      <pre class="row text-white justify-content-center text-decoration-none mar">
-c
-
-h
-
-a
-
-n
-
-g
-
-e
-
-
-v
-
-i
-
-e
-
-w
-</pre>
-    </div>
-  </span>
-  <footer class="fixed-bottom view1">
-    <div class="row">
-      <a class="mx-auto text-white text-decoration-none" href="wldstatadminlogin.php"> Admin? </a>
-    </div>
-  </footer>
-  <!---------------hidden table------------------->
-  <div style="position: fixed; width:100%; height:100%; top:0; left:0; z-index:-101; background:#ffffff;">
+ <!---------------hidden table------------------->
+<div >
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand font-weight-bold" href="index.php">World Statistics</a>
     </nav>
@@ -291,6 +240,63 @@ w
         </div>
       </div>
     </div>
+
+<div style="position: fixed; width:100%; height:100%; top:0; left:0; z-index:101;" class="view1">
+  <!------------background video------------------>
+  <video src="bckvid.mp4 " class="position-fixed bckimg" autoplay="autoplay" loop="loop">
+  </video>
+  <div class="container mt-5 vari" value='1'>
+    <div class="row align-items-start">
+      <h1 class="col display-1 text-center text-white font-weight-bold">WORLD STATISTICS</h1>
+      <!--------Page heading---------->
+    </div>
+    <div class="row align-items-center moresty">
+      <form class="mainform" method="post">
+        <div class="form-group dropdown">
+          <!----------Search bar------------>
+          <input class="form-control form-control-lg ser dropdown-toggle" type="text" id="searchbar" name="id" placeholder="Country name..." data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <div class="dropdown-menu" aria-labelledby="searchbar" style="width:100%; margin-top:-1px" id='serresdisplay'>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <footer class="fixed-bottom">
+    <div class="row">
+      <a class="mx-auto text-white text-decoration-none" href="wldstatadminlogin.php"> Admin? </a>
+    </div>
+  </footer>
+
+</div>
+
+<!----------Change view toggle bar------------->
+<span class="container position-fixed viewbar ">
+    <div id='viewchange' type='button' class="position-relative">
+      <pre class="row text-white justify-content-center text-decoration-none mar">
+c
+
+h
+
+a
+
+n
+
+g
+
+e
+
+
+v
+
+i
+
+e
+
+w
+</pre>
+    </div>
+  </span>
+
     <!------------Javascript to add interactivity and fucntionality--------------->
     <script>
       /*-----------------javascript function to recommend country on search bar-------------*/
@@ -302,15 +308,11 @@ w
             $('.dropdown-item').remove(); //remove item from dropdown
             var linkno = 0;
             var regex = new RegExp($('#searchbar').val(), 'i'); // generate regular expression from the value from search bar
-            for (var i = 0; i < count; i++) { //go through all country names
-              if (linkno > 7) { //check if items in dropdown is greater than 7
-                continue;
-              } else {
-                linkno++;
-              }
+            for (var i = 0; linkno < 7; i++) { //go through all country names
               if (regex.test(jdata[i].COUNTRY_NAME)) { //check if the country name matches the regular expression and apped the item into the dropdown
                 $('#serresdisplay').append('<a class="dropdown-item" id="' + jdata[i].COUNTRY_NAME + '" href="displaydata.php?id=' + jdata[i].CON_ID + '">' + jdata[i].COUNTRY_NAME + '</a>')
-              } else {}
+                linkno++;
+              }
             }
           })
         });
@@ -336,10 +338,10 @@ w
       $('#viewchange').click(function() {
         if (1 == $('.vari').val()) {
           console.log('yes');
-          $(".view1").attr('style', 'display:none');
+          $(".view1").attr('style', 'display:none; z-index:-100');
           $('.vari').val(0);
         } else {
-          $(".view1").attr('style', '');
+          $(".view1").attr('style', 'position: fixed; width:100%; height:100%; top:0; left:0; z-index:101;');
           $('.vari').val(1);
         }
       })

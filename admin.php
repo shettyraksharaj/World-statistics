@@ -45,7 +45,7 @@ if (isset($_POST['submit'])) {
           $img->writeImage($adphiniloc); //relpace the existing image with scaled image
           if (!move_uploaded_file($adphiniloc, $imgNloc)) { //moving the file to a admin photo folder
             $_SESSION['error'] = "Error: Unable to upload";
-            header("location:admin.php");
+            header('location:admin.php');
             return;
           }
         } else {

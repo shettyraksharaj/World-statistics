@@ -11,10 +11,15 @@ if (isset($_GET['id'])) {
     $displaydata = $data->prepare($sql);
     $displaydata->execute(array(':id' => $_GET['id']));
     $rows = $displaydata->fetch(PDO::FETCH_ASSOC);
-    $index = array_keys($rows);
-    foreach ($index as $y) {
-        $rows[$y] = $rows[$y] ? $rows[$y] : '-';
-        $rows[$y] = htmlentities($rows[$y]);
+    if(empty($rows)){
+        $error = '<h1>country data does not exist or the country has not been added into the database</h1>';
+    }else{
+        $error = 'false';
+        $index = array_keys($rows);
+        foreach ($index as $y) {
+            $rows[$y] = $rows[$y] ? $rows[$y] : '-';
+            $rows[$y] = htmlentities($rows[$y]);
+        }
     }
 }
 /*------------fetch data of the country using the country name-----------------*/
@@ -24,10 +29,15 @@ if (isset($_GET['name'])) {
     $displaydata = $data->prepare($sql);
     $displaydata->execute(array(':name' => $_GET['name']));
     $rows = $displaydata->fetch(PDO::FETCH_ASSOC);
-    $index = array_keys($rows);
-    foreach ($index as $y) {
-        $rows[$y] = $rows[$y] ? $rows[$y] : '-';
-        $rows[$y] = htmlentities($rows[$y]);
+    if(empty($rows)){
+        $error = '<h1>country data does not exist or the country has not been added into the </h1>';
+    }else{
+        $error = 'false';
+        $index = array_keys($rows);
+        foreach ($index as $y) {
+            $rows[$y] = $rows[$y] ? $rows[$y] : '-';
+            $rows[$y] = htmlentities($rows[$y]);
+        }
     }
 }
 
@@ -50,6 +60,13 @@ if (isset($_GET['name'])) {
         </ul>
         <a class="navbar-brand font-weight-bold" href="index.php">World Statistics</a>
     </nav>
+    <?php
+        if ($error != 'false') {
+            echo $error;
+            unset($error);
+            return;
+        }
+    ?>
     <!------------------Heading---------------->
     <h1 class="ml-3">Stats of <?= $rows['COUNTRY_NAME'] ?></h1>
     <div class="container" id='box' style='display:none;'>
