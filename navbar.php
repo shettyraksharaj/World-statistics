@@ -32,7 +32,7 @@ if($_SESSION['propho']== 'admin_photos/profile-user.svg'){
       <ul class="nav nav-pills float-left">
       <li style="border-left: 1px solid #000000; " class="dropdown" >
          <?= $proimg ?>
-         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="left:-30%; top:120%" >
+         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="left:-5%; top:120%" >
             <a href="admin.php" class="dropdown-item"><i class="mr-3 fas fa-user"></i>Account</a>
             <div class="dropdown-divider"></div>
             <a  href="logout.php" class="dropdown-item"><i class="mr-3 fas fa-sign-out-alt"></i>Logout</a>
